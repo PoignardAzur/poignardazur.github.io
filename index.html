@@ -4,30 +4,27 @@ title: Home
 ---
 
 <div class="posts">
-  {% for post in paginator.posts %}
+  <h1>About</h1>
+
+  <p>
+    My name is Olivier Faure, also known as PoignardAzur and various other pseudonyms. I think this is my 4th attempt at making a blog, the pivotal difference being that I have things to say this time.
+  </p>
+
+  <p>
+    I'm a professional developer who dabbles in a bit of everything, although these days I've evolved from a C++ enthusiast into a Rust enthusiast. My focus is mostly on desktop apps, though I've done some frontend and backend work as well.
+  </p>
+
+  <h1>Posts</h1>
+
+  {% for post in site.posts %}
   <article class="post">
-    <h1 class="post-title">
+    <h2 class="post-title">
       <a href="{{ post.url | relative_url }}">
         {{ post.title }}
       </a>
-    </h1>
+    </h2>
 
     <time datetime="{{ post.date | date_to_xmlschema }}" class="post-date">{{ post.date | date_to_string }}</time>
-
-    {{ post.content }}
   </article>
   {% endfor %}
-</div>
-
-<div class="pagination">
-  {% if paginator.next_page %}
-    <a class="pagination-item older" href="{{ paginator.next_page_path | relative_url }}">Older</a>
-  {% else %}
-    <span class="pagination-item older">Older</span>
-  {% endif %}
-  {% if paginator.previous_page %}
-    <a class="pagination-item newer" href="{{ paginator.previous_page_path | prepend: relative_url }}">Newer</a>
-  {% else %}
-    <span class="pagination-item newer">Newer</span>
-  {% endif %}
 </div>
