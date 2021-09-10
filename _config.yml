@@ -9,6 +9,7 @@ permalink: pretty
 plugins:
   - jekyll-gist
   - jekyll-seo-tag
+  - jekyll-feed
 
 # Optimize Jekyll
 exclude:
