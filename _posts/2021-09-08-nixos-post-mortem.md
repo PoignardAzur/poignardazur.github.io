@@ -417,3 +417,5 @@ On the other hand, this is an open-source project. The community drives the proj
 So, for anybody who *is*, interested, this is my take. This has been my experience, trying to use NixOS for the desktop. Some of it is surprisingly smooth, some of it is painful. But I think it's not that far away from a point where even moderately tech-savvy users might seriously consider switching to it.
 
 I really hope it gets there.
+
+Discussion on [r/NixOS](https://www.reddit.com/r/NixOS/comments/plq4nl/blog_post_trying_nixos_on_the_desktop/) and [Hacker News](https://news.ycombinator.com/item?id=28485020).
