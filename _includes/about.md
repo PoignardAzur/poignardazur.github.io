@@ -1,7 +1,3 @@
----
-layout: page
-title: About
----
 
 > Dans le puits du volcan, dort le coeur de nos tourments. Le magma des démons sommeille, veillons nos reflets pour qu'ils le surveillent. - Reflets d'Acide
 

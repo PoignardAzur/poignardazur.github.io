@@ -6,13 +6,11 @@ title: Home
 <div class="posts">
   <h1>About</h1>
 
-  <p>
-    My name is Olivier Faure, also known as PoignardAzur and various other pseudonyms. I think this is my 4th attempt at making a blog, the pivotal difference being that I have things to say this time.
-  </p>
 
-  <p>
-    I'm a professional developer who dabbles in a bit of everything, although these days I've evolved from a C++ enthusiast into a Rust enthusiast. My focus is mostly on desktop apps, though I've done some frontend and backend work as well.
-  </p>
+  {% capture about_md %}
+    {% include about.md %}
+  {% endcapture %}
+  {{ about_md | markdownify }}
 
   <h1>Posts</h1>
 
