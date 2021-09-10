@@ -320,9 +320,9 @@ I clone the repository and create an alias to the denv binary. Then I run denv o
 
 ```
 > denv compile-vlc-stable
-[\033[1;32mINFO\033[0m] Exporting current directory (/home/olivier-faure/Documents/vlc) inside the container
-[\033[1;32mINFO\033[0m] Detecting VLC_LATEST tag in profile
-[\033[1;32mINFO\033[0m] Using Docker image vlc-debian-stable with tag 20190716183804
+[INFO] Exporting current directory (/home/olivier-faure/Documents/vlc) inside the container
+[INFO] Detecting VLC_LATEST tag in profile
+[INFO] Using Docker image vlc-debian-stable with tag 20190716183804
 ERROR: Couldn't connect to Docker daemon at http+docker://localhost - is it running?
 ```
 
@@ -349,9 +349,9 @@ Good, docker is working now. I run `denv` again and...
 
 ```
 > denv compile-vlc-stable
-[\033[1;32mINFO\033[0m] Exporting current directory (/home/olivier-faure/Documents/vlc) inside the container
-[\033[1;32mINFO\033[0m] Detecting VLC_LATEST tag in profile
-[\033[1;32mINFO\033[0m] Using Docker image vlc-debian-stable with tag 20190716183804
+[INFO] Exporting current directory (/home/olivier-faure/Documents/vlc) inside the container
+[INFO] Detecting VLC_LATEST tag in profile
+[INFO] Using Docker image vlc-debian-stable with tag 20190716183804
 ERROR: Couldn't connect to Docker daemon at http+docker://localhost - is it running?
 ```
 
