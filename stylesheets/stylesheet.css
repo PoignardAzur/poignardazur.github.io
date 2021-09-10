@@ -503,6 +503,11 @@ aside#sidebar {
   background: transparent url(../images/sidebar-bg.jpg) 0 0 no-repeat;
 }
 
+aside h1 {
+  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+  font-size: 2.2em;
+}
+
 #downloads {
   margin-bottom: 40px;
 }
@@ -573,14 +578,13 @@ form {
 
 /* ARTICLE LIST STYLES */
 
-#main-content article h2 {
+#main-content article h2.post-title {
   margin-top: 1.5rem;
   margin-bottom: 0;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 22px;
   font-weight: bold;
   color: #474747;
-  text-indent: 0;
 }
 
 #main-content article time.post-date {
@@ -596,7 +600,7 @@ form {
 
 #main-content h1 {
   margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: 12px;
   font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
   font-size: 2.8em;
   font-weight: 800;
@@ -614,41 +618,35 @@ form {
 
 
 #main-content h2 {
-  margin-bottom: 8px;
+  margin-bottom: 0.5em;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 22px;
   font-weight: bold;
   color: #474747;
-  text-indent: 4px;
 }
 
 #main-content h3 {
   margin-top: 24px;
-  margin-bottom: 8px;
+  margin-bottom: 0.5em;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 18px;
   font-weight: bold;
   color: #474747;
-  text-indent: 3px;
 }
 
-
 #main-content h4 {
-  margin-bottom: 8px;
+  margin-bottom: 0.5em;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 15px;
   font-weight: bold;
   color: #474747;
-  text-indent: 3px;
 }
 
-
 #main-content h5 {
-  margin-bottom: 8px;
+  margin-bottom: 0.5em;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 14px;
   color: #474747;
-  text-indent: 3px;
 }
 
 #main-content h6 {
@@ -656,7 +654,6 @@ form {
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: .8em;
   color: #474747;
-  text-indent: 3px;
 }
 
 p {
@@ -672,10 +669,11 @@ p a {
 }
 
 blockquote {
-  padding: 0 0 0 30px;
+  color: #808080;
+  padding: 0 0 0 20px;
+  margin-left: 10px;
   margin-bottom: 20px;
-  font-size: 1.2em;
-  border-left: 10px solid #e9e9e9;
+  border-left: 5px solid #e9e9e9;
 }
 
 ul {
@@ -817,7 +815,7 @@ footer .copyright {
     background-image: none;
     border-top: solid 1px #ddd;
   }
-  aside#sidebar a.button {
+  aside.related {
     display: none;
   }
 }
