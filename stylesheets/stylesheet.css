@@ -710,62 +710,42 @@ dl dd {
 /* --- Footer --- */
 
 footer {
-  padding: 1.875rem 0;
   border-top: 1px #EAEAEA solid;
   margin-top: 3.125rem;
   font-size: 0.875rem;
-  text-align: center;
-  background-color: {{ site.footer-col | default: "#EAEAEA" }};
-  {% if site.footer-img %}
-    background-image: url({{ site.footer-img | relative_url }});
-    background-attachment: fixed;
-  {% endif %}
+  background-color: "#EAEAEA";
 }
 
-footer p.text-muted {
-  color: {{ site.footer-text-col | default: "#777777" }} !important;
+footer .wrapper {
+  display: grid;
+  grid-template-columns: 500px;
+  width: 940px;
+  margin: 20px auto;
+}
+
+footer .text-muted {
+  color: #777777 !important;
 }
 
 footer a {
   color: {{ site.footer-link-col | default: "#404040" }};
 }
-footer .copyright {
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  text-align: center;
-  margin-bottom: 0;
-  margin-top: 0;
+
+footer div.contact {
+  grid-column: 1;
+}
+footer div.attributions {
+  grid-column: 2;
 }
 
 
 /* #Media Queries
 ================================================== */
 
-/* Smaller than standard 960 (devices and browsers) */
-@media only screen and (max-width: 959px) { }
-
-/* Tablet Portrait size to standard 960 (devices and browsers) */
-@media only screen and (min-width: 768px) and (max-width: 959px) {
-  .inner {
-    width: 740px;
-  }
-  header h1, header p {
-    width: 340px;
-  }
-  header h1 {
-    font-size: 60px;
-  }
-  header p {
-    font-size: 30px;
-  }
-  #main-content {
-    width: 490px;
-  }
-}
-
 /* All Mobile Sizes (devices and browser) */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 1000px) {
   .inner {
-    width: 93%;
+    width: 94%;
   }
   header {
     padding: 20px 0;
@@ -818,25 +798,12 @@ footer .copyright {
   aside.related {
     display: none;
   }
-}
-
-/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
-@media only screen and (min-width: 480px) and (max-width: 767px) { }
-
-/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
-@media only screen and (max-width: 479px) { }
-
-@media (min-width: 768px) {
   footer {
-    padding: 3.125rem 0;
+    margin-top: 5px;
   }
-  footer .footer-links {
-    font-size: 1.125rem;
-  }
-  footer .copyright {
-    font-size: 1rem;
-  }
-  footer .footer-custom-content {
-    font-size: 1rem;
+  footer .wrapper {
+    width: 93%;
+    display: block;
+    margin: 20px auto;
   }
 }
