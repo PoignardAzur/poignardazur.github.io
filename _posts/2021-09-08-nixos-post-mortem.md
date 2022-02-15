@@ -418,4 +418,4 @@ So, for anybody who *is*, interested, this is my take. This has been my experien
 
 I really hope it gets there.
 
-Discussion on [r/NixOS](https://www.reddit.com/r/NixOS/comments/plq4nl/blog_post_trying_nixos_on_the_desktop/) and [Hacker News](https://news.ycombinator.com/item?id=28485020).
+Discussion on [r/NixOS](https://www.reddit.com/r/NixOS/comments/plq4nl/blog_post_trying_nixos_on_the_desktop/).

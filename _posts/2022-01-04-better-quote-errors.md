@@ -5,7 +5,7 @@ title: "Rust 2030 Christmas list: Macro sources in compiler diagnostics"
 
 This is the second entry on my Christmas list for Rust 2030.
 
-These articles are me fantasizing about what I'd like the Rust language to be like, if we had infinite resources to implement every possible feature. I'm not worrying about "is this important to implement right now" so much as "what should the language look like on the long term".
+These articles are me fantasizing about what I'd like [the Rust programming language](https://www.rust-lang.org/) to be like, if we had infinite resources to implement every possible feature. I'm not worrying about "is this important to implement right now" so much as "what should the language look like on the long term".
 
 For my second article, I'd like to talk about compiler diagnostics in macros and proc-macros.
 
@@ -32,7 +32,7 @@ error[E0412]: cannot find type `i33` in this scope
 
 So far so good, it's a very readable error that tells us what went wrong: we made a typo when writing the type `i32`.
 
-Now let's imagine some more complicated, but similar code:
+Now let's imagine some more complicated, but similar code, using declarative macros:
 
 ```rust
 macro_rules! create_function {
@@ -164,6 +164,8 @@ Or at least, I'd like the *option* to have this be the error.
 (Of course, in the example I gave the error isn't *that* useful; imagine that in real-world use cases you have hundred-lines long proc-macros where it's not immediately obvious where a given error can come from.)
 
 Some people might reply that there is already `cargo-expand` and `-Z macro-backtrace`, but neither of these options give me what I want, which is a targeted error saying "this is the specific line you need to change to fix the problem".
+
+\[EDIT:\] [Apparently](https://internals.rust-lang.org/t/rust-2030-christmas-list-macro-sources-in-compiler-diagnostics/15915/2) `-Z macro-backtrace` gives that information, but only for declarative macros.
 
 
 ## How to fix it

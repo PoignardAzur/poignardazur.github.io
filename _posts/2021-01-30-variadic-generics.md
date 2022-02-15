@@ -5,7 +5,7 @@ title: Analysising variadics, and how to add them to Rust
 
 *\[Note - This is republishing of an article that was previous [posted on github gist](https://gist.github.com/PoignardAzur/aea33f28e2c58ffe1a93b8f8d3c58667), and advertised on reddit in January 2021.\]*
 
-This is an analysis of how variadic generics could be added to Rust. It's not a proposal so much as a summary of existing work, and a toolbox for creating an eventual proposal.
+This is an analysis of how variadic generics could be added to [the Rust programming language](https://www.rust-lang.org/). It's not a proposal so much as a summary of existing work, and a toolbox for creating an eventual proposal.
 
 ## Introduction
 
@@ -29,7 +29,7 @@ make_tuple_sing(rock_band);
 make_tuple_sing(mixed_band);
 ```
 
-**Note that variadic generics are a broader feature than variadic functions.** There are many languages implementing a feature that lets users call a function with an arbitrary number of parameters; this feature is usually called a variadic function. The extra parameters are dynamically typed (C, JS, Python) or a shorthand for passing a slice (ex: Java, Go, C#).
+**Note that variadic generics are a broader feature than variadic functions.** There are many languages implementing a feature that lets users call a function with an arbitrary number of parameters; this feature is usually called a [variadic function](https://en.wikipedia.org/wiki/Variadic_function). The extra parameters are dynamically typed (C, JS, Python) or a shorthand for passing a slice (ex: Java, Go, C#).
 
 As far as I'm aware, there are only two widespread languages implementing variadic generics (C++ and D), which is what this document is about. (Zig has similar features, but it doesn't really have "templates" the way C++ or Rust understand it)
 
@@ -131,7 +131,7 @@ struct Point {
 }
 ```
 
-The Serialize, Deserialize and Debug macros all follow the same principle of "do something with `x`, then do something with `y`", where the "something" in question can be easily defined with traits. For Debug, this is built-in. For Serialize and Deserialize, this is done by generating a string of tokens that compiles to a Serialize/Deserialize implementation for Point.
+The Serialize, Deserialize and Debug macros all follow the same principle of "do something with `x`, then do something with `y`", where the "something" in question can be easily defined with traits. Both built-in traits like Debug and custom traits Serialize and Deserialize do this by generating a string of tokens that compiles to a Serialize/Deserialize implementation for Point.
 
 By contrast, a serialization function in D will look like
 
@@ -193,7 +193,7 @@ First and foremost, we want:
 - To express "this template function/type/trait takes a parameter that can represent an arbitrary number of types".
 - To require that each of those types implements a given trait.
 - To declare tuples of variadic types, and pass them around (eg `let my_tuple : /* VARIADIC_TYPES */; foobar(my_tuple);`)
-- In some case, to "flatten" tuples, and interpret them as a comma-separated list of values, like the [spread operator in JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax#examples).
+- In some cases, to "flatten" tuples, and interpret them as a comma-separated list of values, like the [spread operator in JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax#examples).
 
 Common suggestions to represent variadic types include: `Ts...`, `...Ts`, `Ts..`, `..Ts`, `Ts @ ..`. Using `...` is closer to existing C++/D syntax, but `..` is closer to existing Rust syntax for "and then a bunch of things". The `Ts @ ..` syntax in particular mimics existing [subslice patterns](https://blog.rust-lang.org/inside-rust/2020/03/04/recent-future-pattern-matching-improvements.html#subslice-patterns-head-tail--).
 
@@ -204,7 +204,7 @@ Finally, we want to concisely express "Execute this code for every member of thi
 
 This document will analyze both approaches later.
 
-**Note:** I don't really care what the exact syntax is, for any of these features.The examples in this document just use an arbitrary syntax, but any other could work. I ask that commenters focus on the features in this document, and avoid bikeshedding at first. Thank you!
+**Note:** I don't really care what the exact syntax is, for any of these features. The examples in this document just use an arbitrary syntax, but any other could work. I ask that commenters focus on the trade-offs between features, and avoid bikeshedding at first. Thank you!
 
 
 ## Type inference
@@ -300,9 +300,9 @@ Adapting it for variadics is straightforward:
 
 ```rust
 fn hash_tuple<...Ts: Hash, S: Hasher>(tuple: (...Ts), state: &mut S) {
-  for member ...in tuple {
-
-    member.hash(state);
+  // hash each field
+  for item ...in tuple {
+    item.hash(state);
   };
 }
 ```
@@ -452,7 +452,7 @@ Also, interactions with macros are non-obvious. For instance, it's not immediate
 
 I think this is the most under-analyzed potential benefit of variadic generics.
 
-There is a large consensus that slow compile times are one of the major pain points of Rust (though, interestingly, there doesn't seem to be a recent analysis on the subject). The lifetime system can be tamed after a learning period, but the compiler stays slow, incremental improvements notwithstanding.
+There is a large consensus that slow compile times are one of the major pain points of Rust (though, interestingly, as of 2021, there doesn't seem to be a recent analysis on the subject). The lifetime system can be tamed after a learning period, but the compiler stays slow, incremental improvements notwithstanding.
 
 I'd wager that for the majority of projects, having to compile `syn` and proc-macros takes a big chunk of compile times. There are *a lot* of Rust projects that use extremely elaborate proc macros to generate trait implementations that boil down to "for every member of your struct, do X".
 
@@ -580,7 +580,7 @@ The rust team recently decided to ship [a minimum version of const generics](htt
 I think something similar should be done with variadic generics. A first implementation should be released, focusing on the use case of implementing traits for tuples. This means:
 
 - No zipping, flattening, concatenating, or applying type constructors to tuples. `(...Ts)` is allowed, `(...As, ...Bs)`, `...Option<As>`, `...(As, Bs)`, etc, aren't.
-- No variadic functions. Eg `fn foobar<...Ts>(tuple: (...Ts))` is allowed, `fn foobar<...Ts>(args: ...Ts)` isn't.
+- No variadic argument lists. Eg `fn foobar<...Ts>(tuple: (...Ts))` is allowed, `fn foobar<...Ts>(args: ...Ts)` isn't.
 - Implement tuple `for`.
 - No spread operator or destructuring patterns (eg `let (a, ...my_tuple, b, c) = prev_tuple;` isn't allowed).
 - No `GET_FIELDS` or `HasVariadicFields` builtin for transforming a struct into a tuple.
@@ -611,7 +611,7 @@ This document has referred to post-monomorphization errors a lot. A major prepre
 
 More generally, variadics should be designed with Rust's compile-error story in mind. A major feature of Rust is that the compiler helps you locate where an error comes from quickly. A feature that works when you use it right isn't good enough; it must also be easily corrected when you use it wrong.
 
-This should be the case on the declaration side ("your for-loop is invalid because the member type X doesn't match the member type Y of variadic types ...Xs and ...Ys") and on the use side ("you are using unwrap_all wrong because you're giving it `Option<X>, Option<Y>` but you're expecting `X, ()`, the second parameter should be `Y`).
+This should be the case on the declaration side ("your for-loop is invalid because the member type X doesn't match the member type Y of variadic types ...Xs and ...Ys") and on the user side ("you are using unwrap_all wrong because you're giving it `Option<X>, Option<Y>` but you're expecting `X, ()`, the second parameter should be `Y`).
 
 In practice, keeping that focus requires keeping the semantics simple; it's also one of the reasons I think non-linear tuple arithmetic should be avoided.
 

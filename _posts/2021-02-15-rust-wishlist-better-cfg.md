@@ -5,7 +5,7 @@ title: "Rust 2030 Christmas list: Better cfg"
 
 *\[Note - This is republishing of an article that was previous [posted on github gist](https://gist.github.com/PoignardAzur/8038f5ed7dc8d00e3e9472aca57fb35c), and advertised on reddit in February 2021.\]*
 
-This article is me fantasizing about what I'd like the Rust language to be like, if we had infinite resources to implement every possible feature. I'm tentatively calling it my "Christmas list for Rust 2030", mostly because it sounds catchy.
+This article is me fantasizing about what I'd like [the Rust programming language](https://www.rust-lang.org/) to be like, if we had infinite resources to implement every possible feature. I'm tentatively calling it my "Christmas list for Rust 2030", mostly because it sounds catchy.
 
 For my first Christmas wish, I'd like to discuss conditional compilation and cfg.
 

@@ -5,7 +5,7 @@ title: "Rust 2030 Christmas list: Inout methods"
 
 This is the third entry on my Christmas list for Rust 2030.
 
-These articles are me fantasizing about what I'd like the Rust language to be like, if we had infinite resources to implement every possible feature. I'm not worrying about "is this important to implement right now" so much as "what should the language look like on the long term".
+These articles are me fantasizing about what I'd like [the Rust programming language](https://www.rust-lang.org/) to be like, if we had infinite resources to implement every possible feature. I'm not worrying about "is this important to implement right now" so much as "what should the language look like on the long term".
 
 For my third article, I'd like to talk about mutability duplicates.
 
@@ -136,7 +136,7 @@ The simplest solution would probably be to add the `inout` keyword to the `xxx()
 
 This *ought* to be possible, because adding `inout` shouldn't be a breaking change in practice. In theory though, adding mutability to types in existing code might result in subtle behavior changes. `inout` might need to be introduced as having no effect in existing editions, and be activated by a new edition, so that `cargo fix --edition` could detect any actual change.
 
-(Or language maintainers could do a crate run to see if any code *actually* changes behavior in the wild, finds that none does, shrug, and implement the change immediately.)
+(Or language maintainers could do a [crater](https://github.com/rust-lang/crater) run to see if any code *actually* changes behavior in the wild, finds that none does, shrug, and implement the change immediately.)
 
 
 ## Conclusion

@@ -3,7 +3,7 @@ layout: post
 title: Object-oriented smells
 ---
 
-Object-oriented programming is widespread in industrial codebases.
+[Object-Oriented Programming](https://en.wikipedia.org/wiki/Object-oriented_programming) is widespread in industrial codebases.
 
 This is in part because of inertia: OOP has been the dominant paradigm for decades; an entire generation of programmers has been taught from the onset that OOP was The Right Way To Program.
 
