@@ -99,7 +99,7 @@ fn my_function() {
 }
 ```
 
-might look like this at various points in memory:
+might look like this at various points in time:
 
 ![Stack space schema](/assets/unsized_locals_schema_1.drawio.svg){:class="img-responsive"}
 
@@ -297,3 +297,5 @@ whether `LargeValue` is sized or unsized.
 I think it might be interesting to write a design document outlining what the "limits a reasonable programming model" should be. I think the current state of unsized locals is limited by what LLVM allows with alloca, but with some design work could find designs that are more convenient for users while still being feasible to implement on rustc's backends (LLVM, GCC, cranelift, etc).
 
 In the meantime, what these features need is attention. If the Rust team is serious about allowing trait-safe async, then work on unsized value needs to pick up a lot of steam.
+
+Discussion on [r/rust](https://www.reddit.com/r/rust/comments/szgpxc/analyzing_unsized_variables_in_rust/).
