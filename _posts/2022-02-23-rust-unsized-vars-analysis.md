@@ -101,13 +101,13 @@ fn my_function() {
 
 might look like this at various points in memory:
 
-![Stack space schema](../assets/unsized_locals_schema_1.drawio.svg)
+![Stack space schema](/assets/unsized_locals_schema_1.drawio.svg){:class="img-responsive"}
 
 In practice, though, the compiler (and more specifically, the LLVM backend) will compute how much space all the locals are going to need at any given point, and allocate the maximum amount of space when entering the function.
 
 So in principle, it would be more accurate to represent the memory like this:
 
-![Stack space schema](../assets/unsized_locals_schema_2.drawio.svg)
+![Stack space schema](/assets/unsized_locals_schema_2.drawio.svg){:class="img-responsive"}
 
 But we'll use the fragmented representation for clarity.
 
@@ -128,7 +128,7 @@ fn other_function(arg1: u8, arg2: u8, arg3: SomeBigStruct, arg4: u8) {
 
 Will produce this stack:
 
-![Stack space schema](../assets/unsized_locals_schema_3.drawio.svg)
+![Stack space schema](/assets/unsized_locals_schema_3.drawio.svg){:class="img-responsive"}
 
 Creating an unsized local is relatively simple: we just bump the stack by a dynamic amount. For instance, this code:
 
@@ -142,7 +142,7 @@ use_unsized_array(5);
 
 Will produce this stack:
 
-![Stack space schema](../assets/unsized_locals_schema_4.drawio.svg)
+![Stack space schema](/assets/unsized_locals_schema_4.drawio.svg){:class="img-responsive"}
 
 Passing unsized function parameters is even simpler: arguments are just fat pointers to the unsized values. These values can be on the stack, or boxed (though that case requires some extra compiler logic for dropping).
 
@@ -159,7 +159,7 @@ fn bad_unsized_array() {
 }
 ```
 
-![Stack space schema](../assets/unsized_locals_schema_5.drawio.svg)
+![Stack space schema](/assets/unsized_locals_schema_5.drawio.svg){:class="img-responsive"}
 
 Where should the compiler write the value of `x`? It can't put it immediately after `array`, since its size is still unknown when `x` is being written to.
 
@@ -188,11 +188,13 @@ In practice, [the documentation for RFC #1909's implementation](https://github.c
 > Another pitfall is repetitive allocation and temporaries. Currently the compiler simply extends the stack frame every time it encounters an unsized assignment. So for example, the code
 >
 > ```rust
-> #![feature(unsized_locals)]
->
+> #![feature(unsized_locals)]/lass="img-responsive"}
+> 
 > fn main() {
->     let x: Box<[i32]> = Box::new([1, 2, 3, 4, 5]);
->     let _x = {{{{{{{{{{*x}}}}}}}}}};
+>     for _ in 0..10 {
+>         let x: Box<[i32]> = Box::new([1, 2, 3, 4, 5]);
+>         let _x = *x;
+>     }
 > }
 > ```
 >
