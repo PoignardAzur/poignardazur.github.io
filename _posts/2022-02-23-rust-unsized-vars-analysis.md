@@ -1,16 +1,24 @@
 ---
 layout: post
-title: Analyzing unsized locals in Rust
+title: Analyzing unsized variables in Rust
 ---
 
-In [the Rust programming language](https://www.rust-lang.org/), the "unsized locals" feature is among the black sheep of improvement proposals.
+In [the Rust programming language](https://www.rust-lang.org/), unsized variables are one of those concepts that has been floating around for a long time, but hasn't seen much design work in recent years.
 
-Although there is [an RFC dating back to 2017](https://github.com/rust-lang/rfcs/pull/1909) (5 years old as of the writing of this article), and there's a stub implementation in the nightly compiler, the feature looks stalled for the foreseeable future.
+Although there is [an RFC dating back to 2017](https://github.com/rust-lang/rfcs/pull/1909) (5 years old as of the writing of this article), and there's a stub implementation in the nightly compiler, the feature looks stalled.
 
-Little work has been done on it in recent years, the feature is [marked as incomplete](https://github.com/rust-lang/rust/blob/f19adc7acc649ad2b18b6e172b683ebadb3d8a92/compiler/rustc_feature/src/active.rs#L525-L527), and as far I can tell it doesn't look like much progress has been done in resolving its fundamental design problems.
+Little work has been done on it in recent years, the `unsized_locals` feature is [marked as incomplete](https://github.com/rust-lang/rust/blob/f19adc7acc649ad2b18b6e172b683ebadb3d8a92/compiler/rustc_feature/src/active.rs#L525-L527), and as far I can tell it doesn't look like much progress has been done in resolving its fundamental design problems.
+
+Still, I think there's some room for quick improvement, especially with the `unsized_fn_params` feature.
+
+This article is an analysis of unsized variables, touching both past design work and how things could evolve in the near future. While I'm not familiar with compiler internals, I'll still try to focus on things that should be technically feasible to implement.
 
 
-## What are unsized locals?
+## What are unsized variables?
+
+"Unsized variables" is a catch-all terms I'm using to point to the use of unsized types in locals, function parameters, and function returns. Rust maintainers will usually refer to "unsized locals" and "unsized params" instead, but there's not a lot of formal documentation on the subject.
+
+What are unsized types, you may ask?
 
 In Rust, the type system draws a fundamental distinction between regular types and [unsized or dynamically-sized types](https://doc.rust-lang.org/book/ch19-04-advanced-types.html#dynamically-sized-types-and-the-sized-trait). To over-simplify, unsized types are types whose size isn't known at compile time.
 
@@ -41,6 +49,7 @@ fn foobar_3(thing: MyThing) {}          // ERROR!
 ```
 
 So, unsized types can't be used the same way as sized types. In particular:
+
 - They can't be declared as local variables.
 - They can't be passed as parameters to functions.
 - They can't be returned from blocks or functions.
@@ -48,7 +57,7 @@ So, unsized types can't be used the same way as sized types. In particular:
 
 ### Why should we care?
 
-Unsized locals have one major use case: **passing unsized values to functions and returning unsized values, including trait objects**. Allowing this would enable many useful features:
+Unsized variables have one major use case: **passing trait objects to functions and returning trait objects**. Allowing this would enable many useful features:
 
 - Passing `self` by value in trait-safe methods.
 - Passing `dyn FnOnce` to functions (currently requires boxing, since `&mut dyn FnOnce` can't be called).
@@ -57,7 +66,7 @@ Unsized locals have one major use case: **passing unsized values to functions an
 
 There are some other potential use cases, like saving allocations by passing arrays instead of vecs, but ecosystem crates like smallvec cover these cases well enough.
 
-The rationales relating to object safety, on the other hand, would allow programming patterns that are currently impossible to become trivial, and are a major motivator for unsized locals.
+The rationales relating to object safety, on the other hand, would allow programming patterns that are currently impossible to become trivial, and are a major motivator for unsized variables.
 
 
 ## RFC #1909
@@ -92,17 +101,17 @@ fn my_function() {
 
 might look like this at various points in memory:
 
-TODO (schema 1)
+![Stack space schema](../assets/unsized_locals_schema_1.drawio.svg)
 
 In practice, though, the compiler (and more specifically, the LLVM backend) will compute how much space all the locals are going to need at any given point, and allocate the maximum amount of space when entering the function.
 
 So in principle, it would be more accurate to represent the memory like this:
 
-TODO (schema 2)
+![Stack space schema](../assets/unsized_locals_schema_2.drawio.svg)
 
 But we'll use the fragmented representation for clarity.
 
-If a function has arguments, the calling function will either copy the arguments to the beginning of our stack frame, or, for big arguments, copy a pointer to argument's adress.
+If a function has arguments, the calling function will either copy the arguments to the beginning of our stack frame, or, for big arguments, copy a pointer to argument's address.
 
 So this code:
 
@@ -119,13 +128,13 @@ fn other_function(arg1: u8, arg2: u8, arg3: SomeBigStruct, arg4: u8) {
 
 Will produce this stack:
 
-TODO (schema 3)
+![Stack space schema](../assets/unsized_locals_schema_3.drawio.svg)
 
 Creating an unsized local is relatively simple: we just bump the stack by a dynamic amount. For instance, this code:
 
 ```rust
 fn use_unsized_array(n: usize) {
-    let array: [u8] = [0; n];
+    let array: [u8] = [123; n];
 }
 
 use_unsized_array(5);
@@ -133,7 +142,7 @@ use_unsized_array(5);
 
 Will produce this stack:
 
-TODO (schema 4)
+![Stack space schema](../assets/unsized_locals_schema_4.drawio.svg)
 
 Passing unsized function parameters is even simpler: arguments are just fat pointers to the unsized values. These values can be on the stack, or boxed (though that case requires some extra compiler logic for dropping).
 
@@ -150,7 +159,7 @@ fn bad_unsized_array() {
 }
 ```
 
-TODO (schema 5)
+![Stack space schema](../assets/unsized_locals_schema_5.drawio.svg)
 
 Where should the compiler write the value of `x`? It can't put it immediately after `array`, since its size is still unknown when `x` is being written to.
 
@@ -174,7 +183,7 @@ What that means is that, when the block returns, memory for `first_array` will s
 
 Again, there are theoretical ways to deal with that.
 
-In practice, [the documentation for RFC #1909's implementation](https://github.com/rust-lang/rust/blob/bb22eaf39e6e0a904a8f19a2a659620c12f03a24/src/doc/unstable-book/src/language-features/unsized-locals.md) currently says:
+In practice, [the documentation for RFC #1909's implementation](https://github.com/rust-lang/rust/blob/bb22eaf39e6e0a904a8f19a2a659620c12f03a24/src/doc/unstable-book/src/language-features/unsized-locals.md) `unsized_locals` currently says:
 
 > Another pitfall is repetitive allocation and temporaries. Currently the compiler simply extends the stack frame every time it encounters an unsized assignment. So for example, the code
 >
@@ -187,25 +196,22 @@ In practice, [the documentation for RFC #1909's implementation](https://github.c
 > }
 > ```
 >
-> and the code
->
-> ```rust
-> #![feature(unsized_locals)]
->
 > [...] will unnecessarily extend the stack frame.
 
-What this tells me is that the implementation uses one `alloca` call for every unsized temporary, alloca being the LLVM primitive for allocating dynamic amounts of stack space. Because alloca doesn't have (AFAIK) a granular way to deallocate stack space, that means repeatedly using it is a sure way to get a stack overflow.
+What this tells me is that the implementation uses one `alloca` use for every unsized temporary, alloca being the LLVM primitive for allocating dynamic amounts of stack space. Because alloca doesn't have (AFAIK) a granular way to deallocate stack space, that means repeatedly using it is a sure way to get a stack overflow.
 
-I'm not sure that bit of documentation is still accurate, though. Some message's I've seen (eg [Niko's comment here](https://github.com/rust-lang/rust/issues/48055#issuecomment-586409079)) suggest the focus of implementation has moved to use-cases that don't require alloca, eg function parameters.
+(I checked [on the playground](https://play.rust-lang.org/?version=nightly&mode=debug&edition=2021&gist=efa64cefc7fda78fd0232342900b79fb), and, yup, still a stack overflow.)
 
-TODO - check in nightly compiler
+The focus of the lang team has moved to a subset of RFC #1909: the `unsized_fn_params` feature. That feature allows passing unsized values as function parameters, which doesn't require using alloca.
+
+From discussions on zulip, I'm told that the `unsized_fn_params` feature may be ready to stabilize. At least, while it still needs to be checked for bugs, it doesn't require new design work.
 
 
 ## Unsized returns
 
-One feature RFC #1909 doesn't cover even hypothetically is unsized returns.
+One use-case RFC #1909 doesn't cover even hypothetically is unsized returns.
 
-Two years ago (oh, how time flies), I submitted RFC #2884 to cover this feature, based on a previous RFC draft from user notriddle.
+Two years ago (oh, how time flies), I submitted RFC #2884 to cover this case, based on a previous RFC draft from user notriddle.
 
 The RFC was presented with the following rationales:
 
@@ -213,7 +219,7 @@ The RFC was presented with the following rationales:
 - Help writing to uninitialized memory, in particular when reading IO.
 - Returning `impl MyTrait` from trait-safe methods, and trait-safe async.
 
-In retrospect, only the third rationale really holds water. LLVM is pretty good at eliding copies and placement is rarely necessary, [other proposals have come out](https://github.com/rust-lang/rfcs/blob/master/text/2930-read-buf.md) that adress Reading to unitialized memory, and examples for these use cases muddled the main point.
+In retrospect, only the third rationale really holds water. LLVM is pretty good at eliding copies and placement is rarely necessary, [other proposals have come out](https://github.com/rust-lang/rfcs/blob/master/text/2930-read-buf.md) that address Reading to unitialized memory, and examples for these use cases muddled the main point.
 
 The core of the RFC is that functions be allowed to return unsized values; these functions would be "split in two": the first part of the function would return the size of the returned value, and the second part would write the value into a provided buffer.
 
@@ -288,6 +294,4 @@ whether `LargeValue` is sized or unsized.
 
 I think it might be interesting to write a design document outlining what the "limits a reasonable programming model" should be. I think the current state of unsized locals is limited by what LLVM allows with alloca, but with some design work could find designs that are more convenient for users while still being feasible to implement on rustc's backends (LLVM, GCC, cranelift, etc).
 
-In the meantime, what the feature needs is attention. If the Rust team is serious about allowing trait-safe async, then works on unsized locals needs to start yesterday.
-
-TODO - discussion links
+In the meantime, what these features need is attention. If the Rust team is serious about allowing trait-safe async, then work on unsized value needs to pick up a lot of steam.
