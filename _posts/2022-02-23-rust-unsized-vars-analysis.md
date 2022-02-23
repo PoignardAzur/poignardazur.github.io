@@ -78,7 +78,7 @@ RFC #1909 came out in February 2017, and is pretty straightforward. It proposes 
 - (3) The Right-Hand Side of assigments (eg `x = y;`) must be sized.
 - (4) Trait methods can take `self` by value and still be object-safe.
 
-The reasoning for rules (2) and (3) is that the compiler needs to known the size of a variable at the size of a declaration. You can't execute arbitrary code, which is itself going to allocate stack space, before allocating the space for your unsized variable.
+The reasoning for rules (2) and (3) is that the compiler needs to known the size of a variable at the place of a declaration. You can't execute arbitrary code, which is itself going to allocate stack space, before allocating the space for your unsized variable.
 
 To understand why, we need to talk about stack allocations.
 
