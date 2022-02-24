@@ -16,7 +16,7 @@ This article is an analysis of unsized variables, touching both past design work
 
 ## What are unsized variables?
 
-"Unsized variables" is a catch-all terms I'm using to point to the use of unsized types in locals, function parameters, and function returns. Rust maintainers will usually refer to "unsized locals" and "unsized params" instead, but there's not a lot of formal documentation on the subject.
+"Unsized variables" is a catch-all term I'm using to point to the use of unsized types in locals, function parameters, and function returns. Rust maintainers will usually refer to "unsized locals" and "unsized params" instead, but there's not a lot of formal documentation on the subject.
 
 What are unsized types, you may ask?
 
@@ -71,14 +71,14 @@ The rationales relating to object safety, on the other hand, would allow program
 
 ## RFC #1909
 
-RFC #1909 came out in February 2017, and is pretty straightforward. It proposes that:
+[RFC #1909](https://github.com/rust-lang/rfcs/blob/master/text/1909-unsized-rvalues.md) came out in February 2017, and is pretty straightforward. It proposes that:
 
 - (1) All locals can be unsized, including function arguments.
 - (2) Return values of functions must be sized.
 - (3) The Right-Hand Side of assigments (eg `x = y;`) must be sized.
 - (4) Trait methods can take `self` by value and still be object-safe.
 
-The reasoning for rules (2) and (3) is that the compiler needs to known the size of a variable at the size of a declaration. You can't execute arbitrary code, which is itself going to allocate stack space, before allocating the space for your unsized variable.
+The reasoning for rules (2) and (3) is that the compiler needs to known the size of a variable at the site of its declaration. You can't execute arbitrary code, which is itself going to allocate stack space, before allocating the space for your unsized variable.
 
 To understand why, we need to talk about stack allocations.
 
@@ -188,7 +188,7 @@ In practice, [the documentation for RFC #1909's implementation](https://github.c
 > Another pitfall is repetitive allocation and temporaries. Currently the compiler simply extends the stack frame every time it encounters an unsized assignment. So for example, the code
 >
 > ```rust
-> #![feature(unsized_locals)]/lass="img-responsive"}
+> #![feature(unsized_locals)]
 > 
 > fn main() {
 >     for _ in 0..10 {
@@ -213,7 +213,7 @@ From discussions on zulip, I'm told that the `unsized_fn_params` feature may be 
 
 One use-case RFC #1909 doesn't cover even hypothetically is unsized returns.
 
-Two years ago (oh, how time flies), I submitted RFC #2884 to cover this case, based on a previous RFC draft from user notriddle.
+Two years ago (oh, how time flies), I submitted [RFC #2884](https://github.com/rust-lang/rfcs/pull/2884) to cover this case, based on a previous RFC draft from user notriddle.
 
 The RFC was presented with the following rationales:
 
@@ -285,7 +285,7 @@ Code should be equally easy to write whether values are sized or unsized, *withi
 
 ```rust
 fn loop_with_copies() {
-    for _ in 0..10 {
+    for _ in 0..1000 {
         let x: Box<LargeValue> = get_large_value();
         let _x = *x;
     }
