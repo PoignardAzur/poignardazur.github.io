@@ -419,3 +419,5 @@ So, for anybody who *is*, interested, this is my take. This has been my experien
 I really hope it gets there.
 
 Discussion on [r/NixOS](https://www.reddit.com/r/NixOS/comments/plq4nl/blog_post_trying_nixos_on_the_desktop/).
+
+*2022-06-08 update: Since writing that blog post, I came across https://ianthehenry.com/posts/how-to-learn-nix/, which is another take on the same idea (a diary of installing Nix, describing its papercuts along the way), except infinitely more detailed. I recommend that post both to anyone wanting to either install Nix and to Nix maintainers hoping to improve the UX.*
