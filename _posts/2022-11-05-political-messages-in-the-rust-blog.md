@@ -23,7 +23,9 @@ Each of these asides has been... controversial, to say the least. Many people ar
 
 There's a clear disconnect in the community: for some people, these messages are so self-evident that they shouldn't even be considered political. For some people, they reflect a worldview that they don't necessarily agree with, and when they don't, still don't want to be pushed without their input in the name of a community they're participating in.
 
-Also, let's stop mincing words for a second: a big part of the issue is that these messages are progressive, and reflect a progressive agenda. A lot of people in the Rust community aren't progressive, or not progressive of the specific US flavor that dominates western social media, and so feel extremely threatened when the Rust blog makes these political statements.
+Also, let's stop mincing words for a second: a big part of the issue is that these messages are progressive, and reflect a progressive agenda. A lot of people in the Rust community aren't progressive, or not progressive of the specific US flavor that dominates western social media, and so feel bullied when the Rust blog makes these political statements.
+
+(EDIT: I first said "and so feel extremely threatened". People pointed out that the turn of phrase was pretty rich given that people in Iran/Ukraine/Palestine/etc being, you know, *actually* threatened with death. I agree it was a poor turn of phrase and I apologize. I do think some people feel like that the progressive drift of political discourse is a threat to them and their values; but I think they're unreasonable (or outright toxic) and I don't want to validate them.)
 
 Anyway, it's a difficult subject to discuss with a cool head, and the community has retreaded arguments for and against ad nauseam. So I thought I'd write a short summary of the arguments that come up most often.
 
