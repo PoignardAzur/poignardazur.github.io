@@ -79,3 +79,5 @@ Sometimes things are wrong enough it's worth spending the time to hammer them in
 But there has to be a *process*. If you really want to push human's rights, and not just a watered-down version of the US progressive agenda, you need to have some way of selecting worthy causes that isn't just whatever was last on mainstream channels. You need a set of criterion for what is and isn't worth mentioning. These should be documented, and ideally be something other than "Whenever the release team feels like it."
 
 Tech doesn't have to be political. A compiler can just be a compiler. But if you're going to do politics, the least you can do is not half-ass it.
+
+[Discussion on r/rust.](https://www.reddit.com/r/rust/comments/ymrpah/about_political_messages_on_the_rust_blog/)
