@@ -21,7 +21,7 @@ The yak-shaving is very real here, and I'll be the last person to throw stones h
 
 Part of the reason we're all starting new projects left and right is this perfectionism I mentioned earlier: when you're working in a green field such as Rust, there's a strong desire to "get it right" the first time. A lot of Rust crates beat the state-of-the-art because they were designed from the ground up, to do one thing and do it well, and don't have to carry the technical debt of previous projects. I think I speak for most of the Druid community when I say this is something we'd like to achieve for GUI as well.
 
-But this tendency to jump from project to project does make the ecosystem pretty confusing to newcomers. The druid ecosystem is about easy to understand as a shared comic book universe after three or four continuity reboots.
+But this tendency to jump from project to project does make the ecosystem pretty confusing to newcomers. The druid ecosystem is about as easy to understand as a shared comic book universe after three or four continuity reboots.
 
 This article aims to add some clarity to the current state of affairs. It's a list of druid-adjacent projects sorted (more or less) chronologically, with a brief summary of each project, what its current status is, and whether updates can be expected.
 
