@@ -76,6 +76,8 @@ Here we get into my personal opinion: some things are *right* and some things ar
 
 Putin's unprovoked invasion of Ukraine and the tens of thousands of deaths that followed were *wrong*. Assange's imprisonment on bogus charges, and his sham extradition trial are *wrong*.
 
+(EDIT: Some people have (very politely) taken issue with my formulation of Putin's invasion as "unprovoked". Well, too bad, I'm not a language's official blog, so I get to have strong political opinions. And my opinion is that "having wanted to join NATO for decades" does not constitute a "provocation", let alone one worth invading a country over. If you're mugging someone at gunpoint, and they call their neighbor with a hunting rifle, you don't get to shoot them and then complain that people call it "unprovoked murder".)
+
 Sometimes things are wrong enough it's worth spending the time to hammer them in, even if that creates controversy and hurt feelings.
 
 But there has to be a *process*. If you really want to push human rights, and not just a watered-down version of the US progressive agenda, you need to have some way of selecting worthy causes that isn't just whatever was last on mainstream channels. You need a set of criteria for what is and isn't worth mentioning. These should be documented, and ideally be something other than "Whenever the release team feels like it."
