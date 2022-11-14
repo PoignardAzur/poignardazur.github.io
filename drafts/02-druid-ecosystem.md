@@ -54,7 +54,7 @@ This crate implements an API for stateful drawing over multiple backends, with m
 
 **Link:** https://github.com/linebender/skribo
 
-**Summary:** A library provising low-level text formatting services; intended to be a thin layer around [harfbuzz](https://harfbuzz.github.io/), and as such to provide low-level text shaping.
+**Summary:** A library providing low-level text formatting services; intended to be a thin layer around [harfbuzz](https://harfbuzz.github.io/), and as such to provide low-level text shaping.
 
 **Status:** Discontinued.
 
