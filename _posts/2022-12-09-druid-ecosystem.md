@@ -227,3 +227,7 @@ Hopefully this article gave you a better understanding of the current state of t
 I know it may appear like there's a lot of churn, but I'll repeat what I said in the intro: Rust developers are perfectionnists. Rust GUI is a relatively untamed field, and we're all striving to find the right abstractions and composition boundaries to make tools that are truly powerful and reusable between projects.
 
 Doing so is a long process that takes a lot of trial and error, but we're still hammering away at it!
+
+If this has motivated you to help work on one of the libraries mentioned above, we have [an active community on Zulip](https://xi.zulipchat.com) that can answer all your questions and will be delighted to hear from you. Good coding!
+
+[Discussion on r/rust.](https://www.reddit.com/r/rust/comments/zh0k2k/status_of_the_druid_ecosystem_in_december_2022/)
