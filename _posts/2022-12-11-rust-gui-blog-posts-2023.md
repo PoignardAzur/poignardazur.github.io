@@ -1,6 +1,6 @@
 ---
 layout: post
-title: A call for blogs about GUI in 2023
+title: A call for blogs about Rust GUI in 2023
 ---
 
 This is a call for everyone in [the Rust programming language's](https://www.rust-lang.org/) community:
