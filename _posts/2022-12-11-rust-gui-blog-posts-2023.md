@@ -27,3 +27,5 @@ I hope to see a lot of discussions flourish, and maybe people will learn about p
 If there's enough buy-in, I'll write a summary of the posts I saw, to be published mid-january.
 
 So get writing, and happy holidays to you all!
+
+[Discussion on r/rust.](https://www.reddit.com/r/rust/comments/zioh6o/a_call_for_blogs_about_rust_gui_in_2023/)
