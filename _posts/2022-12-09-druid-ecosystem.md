@@ -76,7 +76,7 @@ Druid is an opinionated GUI framework that lets developers build their UI in a d
 
 Druid uses Piet and Kurbo internally for rendering.
 
-**Status:** In limbo. Druid's maintainers have been unstatisfied with the crate's API and main abstractions for years, and progress has slowed as a result. The current plan is to put out a final release before the end of the year, with bugfixes and documentation fixes, and then leave the project in maintenance mode.
+**Status:** In limbo. Druid's maintainers have been unsatisfied with the crate's API and main abstractions for years, and progress has slowed as a result. The current plan is to put out a final release before the end of the year, with bugfixes and documentation fixes, and then leave the project in maintenance mode.
 
 Druid will eventually be superseded by Xilem and/or Masonry.
 
