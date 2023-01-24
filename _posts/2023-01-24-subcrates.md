@@ -205,3 +205,5 @@ Here are a few more design questions I can think of off the top of my head:
 Splitting your crate into smaller crates is recommended so often it's almost a platitude, but actually doing it causes a lot of churn that most maintainers aren't willing to deal with.
 
 This article presented a possible approach to reduce that churn, in a way that requires as few structural changes to the Rust toolchain as possible.
+
+[Discussion on r/rust](https://www.reddit.com/r/rust/comments/10k4q0c/rust_2030_christmas_list_subcrate_dependencies/)
