@@ -9,7 +9,9 @@ I don't just mean Rust UI. My frustrations with UI frameworks started long befor
 
 ## The origin story: Qt and fear
 
-In 2019, I spent a year working on a Qt project for an energy company, a diagram editor to be used by electrical engineers. I was brought in as a consultant late in the project, to fix bugs and add small features before the product shipped. I had already worked on Qt projects before, but they were mostly amateur projects, toy examples and the like. This was the first GUI project of industrial scale that I worked on, and it was fascinating and/or infuriating to see that my frustrations with Qt still applied.
+The [Qt framework](https://www.qt.io/) is a C++ toolkit for writing GUI apps.
+
+In 2019, I spent a year working on a Qt project for an energy company, a diagram editor meant to be used by electrical engineers. I was brought in as a consultant late in the project, to fix bugs and add small features before the product shipped. I had already worked on Qt projects before, but they were mostly amateur projects, toy examples and the like. This was the first GUI project of industrial scale that I worked on, and it was fascinating and/or infuriating to see that my frustrations with Qt still applied.
 
 Working on an existing Qt codebase was *slow*.
 
@@ -37,7 +39,7 @@ This is a kind of very deep frustration that I often come back to. The computer 
 
 Browser devtools aren't perfect, but they add an amazing amount of versatility. The DOM inspector can tell us for any given onscreen pixel which DOM node produces this pixel, what CSS styles are applied to the node, what the node looks like if we add or remove styles, etc. The JS console (in both Chrome and Firefox) is the most amazing tool for visualizing program data I've ever seen.
 
-[TODO Add screenshot]
+![Firefox devtools screenshot](/assets/firefox_devtools.png){:class="img-responsive"}
 
 I don't really see the current Rust frameworks helping with the frustration I mentioned. SlintUI, Iced, Druid, egui, etc, all have some great goals: simplicity, responsiveness, good performance, low overhead, accessibility and internationalization support, etc. But none of them support, say, writing unit tests for widgets.
 
@@ -60,12 +62,12 @@ Rust GUI should be fearless, for the reasons I've described. And fearless GUI is
 - Inspectable
 - Replayable
 
-[TODO - picture]
-
 We're a long way away from *everything* I'm about to describe. This is a vision document, not a roadmap for 2023. That said, I do think everything I mention here is technically achievable with the manpower the Rust community can muster.
 
 
 ### Iterative GUI
+
+![Iterative GUI](/assets/masonry_goals_iterative.svg){:class="img-responsive"}
 
 This is the most obvious part, but GUI development should have short iteration cycles.
 
@@ -81,6 +83,8 @@ That said, short build times aren't the only thing that makes for an iterative p
 
 
 ### Fixable GUI
+
+![Fixable GUI](/assets/masonry_goals_fixable.svg){:class="img-responsive"}
 
 Imagine the situation: you're debugging your app. There's a bug in the menu, where none of the buttons are displayed. Your Git-fu is strong enough that you know to immediately bisect the repository, and after 10 minutes of rebuilding and testing, you find the offending commit, which refactors the layout algorithm. Unfortunately it's a pretty large commit, so you're still not quite sure where the bug comes from, and you have to debug it manually.
 
@@ -108,6 +112,8 @@ That means warnings when the framework detects probable mistakes, and powerful i
 
 
 ### Testable GUI
+
+![Testable GUI](/assets/masonry_goals_testable.svg){:class="img-responsive"}
 
 When I was working on that big Qt project, we were lucky enough to have a suite of integration tests.
 
@@ -138,6 +144,8 @@ Testable GUI is GUI that is proactive and even *aggressive* in looking for perfo
 
 ### Inspectable GUI
 
+![Inspectable GUI](/assets/masonry_goals_inspectable.svg){:class="img-responsive"}
+
 A GUI application isn't just a random bunch of meaningless bytes that could have any values. The application's data is *structured*, and Inspectable GUI is GUI that surfaces that structure.
 
 The state of the art for inspectability is the browser (aka Firefox and Chromium). And I don't just mean browser devtools, I mean browsers in general. They give you *so many* affordances:
@@ -159,7 +167,7 @@ Like, that would be okay. It would be a B minus.
 
 An A plus would be implementing [Bret Victor's learnable programming](http://worrydream.com/LearnableProgramming/).
 
-[ TODO - insert screenshot ]
+![Screenshot from learnable programming](/assets/learnable_programming.jpg){:class="img-responsive"}
 
 I want to be able to log rectangle values in my UI code and have the UI highlight the place that the rectangle represents so I can visualize it. I want all data structures / widgets / layout concepts like Flex to have visual aids that are displayed when you select them. I want to dump the state of my widget tree, open it in the console, and inspect that widget tree as if it were my current page, search strings in it, etc.
 
@@ -169,6 +177,8 @@ This is an area where I think Rust has the potential to be truly groundbreaking.
 
 
 ### Replayable GUI
+
+![Replayable GUI](/assets/masonry_goals_replayable.svg){:class="img-responsive"}
 
 You know that thing where Overwatch developers needed a killcam, so [they built a replay system into their ECS framework](https://www.youtube.com/watch?v=W4oZq4tn57w), which they could then use for game highlights and esport broadcast and debugging?
 
@@ -408,7 +418,7 @@ At the beginning of this post, I've laid out my vision for what a GUI framework 
 
 Well, so far Masonry aims for "Fixable" and "Testable".
 
-[TODO - picture]
+![Masonry currently achieves parts of "Fixable" and "Testable"](/assets/masonry_goals_currently.svg){:class="img-responsive"}
 
 Masonry is very much in its 0.1 version. A lot of internal abstractions are subject to change, and you can take a peek at [the issue backlog](https://github.com/PoignardAzur/masonry-rs/issues) to get an idea of how many aspects need a refactor.
 
