@@ -216,7 +216,7 @@ With all that said, here's my very small, tentative attempt to start filling tha
 
 ## Introducing Masonry 0.1
 
-Masonry is a framework that aims to provide the foundation for Rust GUI libraries.
+[Masonry](https://crates.io/crates/masonry) is a framework that aims to provide the foundation for Rust GUI libraries.
 
 It started out as a fork of Druid that emerged from discussions I had with Raph Levien and Colin Rofls about what it would look like to turn Druid into a foundational library.
 
@@ -417,7 +417,7 @@ There is a lot of work I need to do before the Xilem community will seriously co
 
 I'm going to be candid here: I may be in over my head with this project.
 
-Masonry has been one of these "Xenon's paradox" types of projects, where every time you think you're getting closer to your goal, the remaining tasks become bigger and split into sub-tasks. Finish one of the sub-tasks, the others start growing and splitting as well.
+Masonry has been one of these "Zenon's paradox" types of projects, where every time you think you're getting closer to your goal, the remaining tasks become bigger and split into sub-tasks. Finish one of the sub-tasks, the others start growing and splitting as well.
 
 I want to encourage any developers who've read this far and feel enthusiastic about the project to contribute. Masonry is only in its infancy. To be perfectly clear, it's even kind of awful, a downgrade from Druid in some aspects (not all, mind you!), and it will need more man-hours than a single person can provide to achieve the goals I've grouped under the "Fearless GUI" umbrella.
 
