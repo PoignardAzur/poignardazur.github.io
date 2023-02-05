@@ -21,7 +21,7 @@ As a programmer, when you want to tweak a feature in an existing project, you ha
 - Then you have to read and understand that code, and maybe figure out what other bits of code depend on it.
 - Then you have to change the feature to do what you want, and cross your fingers and hope you didn't break some completely unrelated part of the code you weren't aware of.
 
-The Rust community (which I didn't know about at the time) has a popular concept of "fearless X". Fearless concurrency, fearless refactoring, etc.
+The Rust community **has a popular concept of "fearless X"**. Fearless concurrency, fearless refactoring, etc.
 
 Ideally, whenever you make a change to the codebase, you want to be confident about which part of the code you need to change, and you want to be confident your change is not going to break the rest of the program.
 
@@ -29,9 +29,15 @@ You want that not only because adding a regression sucks, but because *being con
 
 Work on a large-scale Qt project was the opposite of fearless. Even with IDE tooling, I had a very loose understanding of what each function was responsible for and where its possible callers were. This was in part because of Qt's signals-and-slots architecture and in part because the codebase's overuse of OOP made the call graph look like a plate of spaghetti.
 
-If something didn't work as planned, my only recourse was to build a model in my head of the code I was running; based on that model, make an educated guess at what was the thing that was going wrong; and finally, make a very small code change and wait 30 seconds for the project to rebuild so I could test that change. That was my only recourse because the information I wanted to access (eg the values of some variables) was known to the computer but not to me, and to surface that information I needed to recompile the project with printf calls / restart in Visual Studio's debugger.
+If something didn't work as planned, figuring out why was a struggle. I had to build a model in my head of the code I was running; based on that model, make an educated guess at what was the thing that was going wrong; and finally, make a very small code change and wait 30 seconds for the project to rebuild so I could test that change.
 
-Now, again, these are frustrations I had felt before. But by 2019, I had already worked with JS frameworks and learned to use browser devtools and such, so I was all the more frustrated that I *knew* it was possible to do better.
+There was information (eg the values of some variables) known to the computer but not to me, and to surface that information I needed to recompile the project with printf calls / restart in Visual Studio's debugger.
+
+## A problem already solved
+
+These are all problems I had had before.
+
+But by 2019, I had already worked with JS frameworks and learned to use browser devtools and such, so I was all the more frustrated that I *knew* it was possible to do better.
 
 *I shouldn't have to spend 20 minutes grepping through the code trying to guess which class displays this widget! The framework **knows** what widget this is, it's printing it on my screen! I should be able to just select the widget by mouse and get at the very least its name, and ideally the stack trace of the call that created it and a bunch of other info.*
 
@@ -86,7 +92,7 @@ That said, short build times aren't the only thing that makes for an iterative p
 
 ![Fixable GUI](/assets/masonry_goals_fixable.svg){:class="img-responsive"}
 
-Imagine the situation: you're debugging your app. There's a bug in the menu, where none of the buttons are displayed. Your Git-fu is strong enough that you know to immediately bisect the repository, and after 10 minutes of rebuilding and testing, you find the offending commit, which refactors the layout algorithm. Unfortunately it's a pretty large commit, so you're still not quite sure where the bug comes from, and you have to debug it manually.
+Imagine the situation: you're debugging your app. There's a bug in the menu, where none of the buttons are displayed. Your Git-fu is strong enough that you know to immediately bisect the repository, and after 10 minutes of rebuilding and testing, you find the offending commit, which refactors the layout algorithm. Unfortunately it's a pretty large commit, so you still don't know where the bug comes from, and you have to debug it manually.
 
 First you check that the paint method of your button is called. It is indeed, these buttons do exist. You know that the paint method has an early exit in case the button is offscreen. You add a println/breakpoint after that early exit and confirm that it's not systematically taken. You check the transparency of your widgets. Maybe you accidentally set the alpha to zero? Nope, they're fully visible. You print out the positions of your widget on paint. Because paint is called 60 times per second, your terminal is quickly filled with identical log messages, but you confirm that the positions make sense.
 
@@ -96,7 +102,7 @@ So you check again that the paint method is called (it is) and you check that th
 
 After two more hours of banging your head against the keyboard, you realized that a faulty calculation in your list gave all the widgets a size of NaN which means your painter tried to paint NaN-sized rects and Nan-sized text and predictably failed. No, the painter primitives don't emit a warning when you send them NaN values, why do you ask?
 
-This fictional example illustrates a general idea: in computer graphics, there are a thousand ways to not display what you want, and if you bump into one, you get very little information to eliminate the other nine-hundred-ninety-nine.
+This fictional example illustrates a general idea: **in computer graphics, there are a thousand ways to not display what you want**, and if you bump into one, you get very little information to eliminate the other nine-hundred-ninety-nine.
 
 Fixable GUI is GUI that doesn't suffer from this problem. It's *pit of success* GUI.
 
@@ -121,7 +127,7 @@ We had a special test runner that would read config files in a special DSL telli
 
 This was, as far as I'm aware, the state of the art in testing Qt applications.
 
-(It's hard be confident about this kind of statement. In this case though, the company had hired engineers from the Qt org for a few weeks of consulting, so if there was a more efficient way to do this, I assume the team would at least be aware of it, which I know they weren't. Also, I still occasionally read Qt docs and I've still found nothing on writing unit tests for widgets.)
+(It's hard to be confident about this kind of statement. In this case though, the company had hired engineers from the Qt org for a few weeks of consulting, so if there was a more efficient way to do this, I assume the team would at least be aware of it, which I know they weren't. Also, I still occasionally read Qt docs and I've still found nothing on writing unit tests for widgets.)
 
 Anyway, Qt is far from alone in this. GTK doesn't support testing either; most Rust GUI frameworks don't; only the browser ecosystem has some support for headless testing, thanks to NPM packages.
 
@@ -131,7 +137,7 @@ People have a perception that testing is less important in GUI code and that you
 
 Testing is essential if you want Fearless GUI, especially at scale. Testing lets you make sure the changes you added didn't create a regression in some unrelated part of the code. It helps you *not worry* about breaking things, which helps you write faster.
 
-Rust GUI should expand developers' notions of how GUIs can be tested. At the very minimum, Testable GUI includes headless widget rendering, to cover low-level widget code. It includes both "structural tests" (such as "this list has the expected number of rows") to check for logic regressions and "screenshot tests" (rendering the UI to a buffer and saving it to a version-controlled snapshot) to check for visual regressions.
+**Rust GUI should expand developers' notions of how GUIs can be tested.** At the very minimum, Testable GUI includes headless widget rendering, to cover low-level widget code. It includes both "structural tests" (such as "this list has the expected number of rows") to check for logic regressions and "screenshot tests" (rendering the UI to a buffer and saving it to a version-controlled snapshot) to check for visual regressions.
 
 Testable GUI includes fuzzing, to check if there is any combination of user inputs that can crash the app. GUI developers traditionally rely on QA testers to find these crashes, and on user reports after that. That's insane! Automated fuzzing can find bugs faster, more reliably, and for cheaper than humans can. And you can run the fuzzer after every commit, not just once at the end of the production process.
 
@@ -188,7 +194,7 @@ Yeah, I want the same thing for GUI.
 
 Replayable GUI has a strong separation between deterministic and platform-dependent code. It can produce screenshots and videos and perform record-replay by serializing user inputs and other syscall results to a file on disk.
 
-This replay feature should be a first-class citizen, not a bonus that you learn about in some advanced tutorial. Loading a replay should be easy and Just Work. Recording a replay should be a single keyboard shortcut away in every application.
+**This replay feature should be a first-class citizen**, not a bonus that you learn about in some advanced tutorial. Loading a replay should be easy and Just Work. Recording a replay should be a single keyboard shortcut away in every application.
 
 You should be able to send replays over email and on file-sharing services to people who don't share your build. There should be tools to convert your replay to a video.
 
@@ -203,9 +209,9 @@ And replays should be extremely memory-efficient so that developers can enable r
 
 I am absolutely not saying any of this is easy to do.
 
-What I'm trying to describe is an *ideal*. A North Star to guide us, something I want us to reach eventually. Again, I don't think existing Rust GUI frameworks are bad. It's just that none of them seem to be seeing quite what I'm seeing, none of them quite seem to be seeing this gaping hole that the Rust ecosystem should be rushing to fill.
+What I'm trying to describe is an *ideal*, something to navigate towards. Again, I don't think existing Rust GUI frameworks are bad. It's just that none of them seem to be seeing what I'm seeing, none of them quite seem to be seeing this immense gap that the Rust ecosystem should be rushing to fill.
 
-With all that said, here's my very small, tentative attempt to start filling that hole.
+With all that said, here's my very small, tentative attempt to start filling that gap.
 
 
 ## Introducing Masonry 0.1
@@ -237,25 +243,14 @@ impl AppDelegate for Delegate {
     fn on_action(
         &mut self,
         ctx: &mut DelegateCtx,
-        _window_id: WindowId,
-        _widget_id: WidgetId,
         action: Action,
-        _env: &Env,
     ) {
         match action {
             Action::ButtonPressed | Action::TextEntered(_) => {
                 let mut root: WidgetMut<Portal<Flex>> = ctx.get_root();
                 if self.next_task != "" {
                     let mut flex = root.child_mut();
-                    flex.child_mut(2)
-                        .unwrap()
-                        .downcast::<SizedBox>()
-                        .unwrap()
-                        .child_mut()
-                        .unwrap()
-                        .downcast::<Flex>()
-                        .unwrap()
-                        .add_child(Label::new(self.next_task.clone()));
+                    flex.add_child(Label::new(self.next_task.clone()));
                 }
             }
             Action::TextChanged(new_text) => {
@@ -267,30 +262,16 @@ impl AppDelegate for Delegate {
 }
 
 fn main() {
-    const GAP_SIZE: f64 = 4.0;
-    const LIGHT_GRAY: Color = Color::rgb8(0x71, 0x71, 0x71);
-    // The main button with some space below, all inside a scrollable area.
+    // The main button and text box with some space below,
+    // all inside a scrollable area.
     let root_widget = Portal::new(
         Flex::column()
             .with_child(
-                SizedBox::new(
-                    Flex::row()
-                        .with_child(Button::new("Add task"))
-                        .with_spacer(5.0)
-                        .with_flex_child(TextBox::new(""), 1.0),
-                )
-                .border(LIGHT_GRAY, GAP_SIZE),
+                Flex::row()
+                    .with_child(TextBox::new(""))
+                    .with_child(Button::new("Add task")),
             )
-            .with_spacer(GAP_SIZE)
-            .with_child(
-                SizedBox::new(
-                    Flex::column()
-                        .cross_axis_alignment(CrossAxisAlignment::Start)
-                        .with_child(Label::new("List items:")),
-                )
-                .expand_width()
-                .border(LIGHT_GRAY, GAP_SIZE),
-            ),
+            .with_spacer(VERTICAL_WIDGET_SPACING),
     )
     .constrain_horizontal(true);
 
@@ -302,13 +283,12 @@ fn main() {
         .with_delegate(Delegate {
             next_task: String::new(),
         })
-        .log_to_console()
         .launch()
         .expect("Failed to launch application");
 }
 ```
 
-As you can see, compared to crates like Druid or Iced, Masonry takes a fairly low-level approach to GUI: there is no complex reconciliation logic or dataflow going on behind the scenes; if you want to add a widget to the flex container, you call `flex.add_child(your_widget)`.
+Note that, compared to crates like Druid or Iced, Masonry takes a fairly low-level approach to GUI: there is no complex reconciliation logic or dataflow going on behind the scenes. When the example above wants to add a child to the flex container, it calls `flex.add_child(some_child)`.
 
 This simplicity makes Masonry somewhat painful if you want to use it to build actual GUI applications. The hope is that, by being low-level and straightforward, developers can easily build GUI frameworks on top of it.
 
@@ -324,7 +304,6 @@ If you want to add your own, you have to implement the Widget trait:
 ```rust
 impl Widget for HelloButton {
     fn on_event(&mut self, ctx: &mut EventCtx, event: &Event, _env: &Env) {
-        ctx.init();
         match event {
             Event::MouseDown(_) => {
                 println!("Hello world!");
@@ -350,8 +329,8 @@ impl Widget for HelloButton {
         ctx.fill(rounded_rect, &Color::GRAY);
     }
 
-    fn children(&self) -> SmallVec<[WidgetRef<'_, dyn Widget>; 16]> {
-        SmallVec::new()
+    fn children(&self) -> Vec<WidgetRef<'_, dyn Widget>> {
+        Vec::new()
     }
 }
 ```
@@ -405,7 +384,7 @@ The test harness still needs some improvements, but it's by far the most polishe
 
 Earlier in this article, I said that a Rust GUI framework should have all the affordances of a browser.
 
-Masonry isn't remotely at that point.
+Masonry isn't even remotely at that point.
 
 I initially wanted to include a rudimentary Widget Inspector as a proof of concept, which would let you click an arbitrary widget and get its position in the widget tree, styling information, other metadata, etc. But implementing that inspector took longer than I expected, and by that point, I had already delayed the first release way too much (see next section), so I decided to release Masonry without it.
 
@@ -440,8 +419,6 @@ I'm going to be candid here: I may be in over my head with this project.
 
 Masonry has been one of these "Xenon's paradox" types of projects, where every time you think you're getting closer to your goal, the remaining tasks become bigger and split into sub-tasks. Finish one of the sub-tasks, the others start growing and splitting as well.
 
-I have honestly slightly burned out on this project. My intention after this release is to not touch it for at least a month and take care of all the other life problems I've been neglecting while I was working on it.
-
 I want to encourage any developers who've read this far and feel enthusiastic about the project to contribute. Masonry is only in its infancy. To be perfectly clear, it's even kind of awful, a downgrade from Druid in some aspects (not all, mind you!), and it will need more man-hours than a single person can provide to achieve the goals I've grouped under the "Fearless GUI" umbrella.
 
 And I *do* want to achieve these goals. Despite how big the task is, it doesn't feel unfeasible. There's no reason a GUI framework would be an impossible task, when the Rust community has managed to produce compilers, OSes, game engines, and ports of the entire coreutils collection. I think Masonry is the first step towards a goal that is both achievable and a step forward for the entire ecosystem.
@@ -450,10 +427,10 @@ The Rust community feels like it's in a pretty good position to advance the stat
 
 So I do think Rust is going to revolutionize native GUI one day, and I'd like to think Masonry will be a step towards that.
 
-In the meantime, I've [marked issues](https://github.com/PoignardAzur/masonry-rs/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22) where I expect a single contributor could make a difference in their free time. I'm really hoping that people take interest in the project, and that it picks up more speed than it would as a one-man side-project.
+In the meantime, I've [marked issues](https://github.com/PoignardAzur/masonry-rs/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22) where I expect a single contributor could make a difference in their free time. I'm really hoping that people take interest in the project and that it picks up more speed than it would as a one-man side-project.
 
 Even if you're not sure how to contribute, if you're feeling enthusiastic about the vision I've shared, please come to the [Xilem zulip](https://xi.zulipchat.com/#narrow/stream/317477-masonry) to talk to people and exchange ideas.
 
-Any contribution will be appreciated! I can't stress this enough: at Masonry's current scale, **even a single person popping by to say that they like the project is a huge win**. Issues, pull requests and suggestions help even more, though I can't promise I'll process them quickly (especially since, as I've said, I'm taking a month-long break right now).
+Any contribution will be appreciated! I can't stress this enough: at Masonry's current scale, **even a single person popping by to say that they like the project is a huge win**. Issues, pull requests and suggestions help even more.
 
 Thank you for reading this far, and ~~happy holidays~~ have a good month of February!
