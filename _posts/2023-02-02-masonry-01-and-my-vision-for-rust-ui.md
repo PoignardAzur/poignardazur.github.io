@@ -434,3 +434,5 @@ Even if you're not sure how to contribute, if you're feeling enthusiastic about 
 Any contribution will be appreciated! I can't stress this enough: at Masonry's current scale, **even a single person popping by to say that they like the project is a huge win**. Issues, pull requests and suggestions help even more.
 
 Thank you for reading this far, and ~~happy holidays~~ have a good month of February!
+
+[Discussion on r/rust.](https://www.reddit.com/r/rust/comments/10uhw4l/announcing_masonry_01_and_my_vision_for_rust_ui/)
