@@ -23,6 +23,7 @@ But this tendency to jump from project to project does make the ecosystem pretty
 
 This article aims to add some clarity to the current state of affairs. It's a list of Druid-adjacent projects sorted (more or less) chronologically, with a brief summary of each project, what its current status is, and whether updates can be expected.
 
+**Update:** As of February 2023, a lot of this is already outdated. However, the title of the article goes "in December 2022", so I'm not going to rewrite everything. I've added updates when projects have changed or been renamed.
 
 ## Projects
 
@@ -78,9 +79,11 @@ Druid uses Piet and Kurbo internally for rendering.
 
 **Status:** In limbo. Druid's maintainers have been unsatisfied with the crate's API and main abstractions for years, and progress has slowed as a result. The current plan is to put out a final release before the end of the year, with bugfixes and documentation fixes, and then leave the project in maintenance mode.
 
-Druid will eventually be superseded by Xilem and/or Masonry.
+Druid will eventually be superseeded by Xilem and/or Masonry.
 
 (There were also two experimental spinoff projects, [crochet](https://github.com/raphlinus/crochet) and [lasagna](https://github.com/linebender/druid/tree/lasagna/lasagna), which I'm not including in this list. Both of those laid ground for what eventually became Xilem and Masonry.)
+
+**Update:** Druid's 0.8 release has come out, and Druid is now officially in maintenance mode.
 
 
 ### Runebender
@@ -115,6 +118,8 @@ The goal of Masonry is to separate the higher-level app-developer-facing API fro
 
 **Status:** In development.
 
+**Update:** [Masonry 0.1 has been released.](https://poignardazur.github.io/2023/02/02/masonry-01-and-my-vision-for-rust-ui/)
+
 
 ### Xilem
 
@@ -140,6 +145,8 @@ The goal is to try to use advanced GPU features (subgroups, descriptor arrays) t
 Its unclear what this project would mean for the baseline Piet project. There has been some talk of eventually replacing Piet with Piet-GPU in Druid/Xilem once Piet-GPU would be mature. That said, my understanding is that the two projects have drifted apart quite a bit, and Piet-GPU's API is now very different from Piet's.
 
 **Status:** In development.
+
+**Update:** Piet-GPU has been renamed and is now called "Vello".
 
 
 ### Glazier
