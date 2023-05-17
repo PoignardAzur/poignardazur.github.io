@@ -14,7 +14,7 @@ of any of the platforms Rust is available on. Each platform has its own folders
 that it expects apps to store different types of data in, with various degrees
 of compliance.
 
-Platform-compliance is a subject that pops up every now and then, usually with
+Platform compliance is a subject that pops up every now and then, usually with
 some frustration that Rust still doesn't have it. Here's an overview of the main
 threads I've found on the subject:
 
@@ -48,12 +48,12 @@ costly to implement now that the ecosystem has ossified.
 
 That frustration can get pretty close to resentment and hostility. Indeed,
 speedrunning through past discussions, it can feel like platform-compliance
-skeptics's position is a textbook application of the OSS's _Simple Sabotage
-Field Manual_: "insist on doing everything through channels, never permit
-short-cuts to be taken in order to expedite decisions", "haggle over precise
-wordings of communications, minutes, resolutions", "refer back to matters
-decided upon at the last meeting and attempt to re-open the question of the
-advisability of that decision".
+skeptics' position is a textbook application of the OSS's _Simple Sabotage Field
+Manual_: "insist on doing everything through channels, never permit short-cuts
+to be taken in order to expedite decisions", "haggle over precise wordings of
+communications, minutes, resolutions", "refer back to matters decided upon at
+the last meeting and attempt to re-open the question of the advisability of that
+decision".
 
 Now, there is an important point I want to make: the previous paragraph is not
 me accusing developers who favor the status quo of deliberately making the
@@ -62,15 +62,15 @@ but Rust is a high-trust open-source community, where we have the privilege of
 being able to assume good faith.
 
 Rather, I think that developers resistant to platform-compliant config files
-have concerns; some which I feel were valid, some which were basically noise;
+have concerns; some of which I feel were valid, some which were basically noise;
 and that despite the eagerness of the community for a fix, and the attempts of
 multiple members to implement ones, nobody was able to propose a solution that
-truly adressed those concerns.
+truly addressed those concerns.
 
 Part of this is bureaucratic entropy (if skeptics oppose the same minor concerns
-over and over again, for instance because they are not aware someone else
-already raised them, discussion inevitably gets bogged down), part of this is
-that the major concerns are legitimately complex to tackle.
+over and over again, eg because they are not aware someone else already raised
+them, discussion inevitably gets bogged down), part of this is that the major
+concerns are legitimately complex to tackle.
 
 And since the second best time to plant a tree is right now, I'd like to lay out
 those concerns, and exactly what it would take to address them.
@@ -96,7 +96,7 @@ parent directory, and in a special path, `~/.cargo/config`.
 Moreover, cargo also wants to keep a cache of previously built crates,
 downloaded source files, credential tokens, etc. All of these files will be
 stored in paths like `~/.cargo/git`, `~/.cargo/credentials`, etc. And cargo also
-keeps all the globally-installed binaries it built in `~/.cargo/bin`; if that
+keeps all the globally-installed binaries it builds in `~/.cargo/bin`; if that
 directory is added to your `$PATH`, then after running
 `cargo install somerustprogram`, you can run `somerustprogram` directly from
 your terminal like any other command.
@@ -128,8 +128,8 @@ increasingly popular standard called
 - (Non-standard, but popular) `XDG_BIN_HOME`: Where user-specific executables
   should be written (similar to `/usr/bin`). Default to `$HOME/.local/bin`.
 
-(Mac, Windows and other OSes have their own conventions, which I'm less familiar
-with.)
+(Mac, Windows, and other OSes have their own conventions, which I'm less
+familiar with.)
 
 It's controversial how much benefit these conventions really bring. Some people
 really don't care, some people swear by them.
@@ -178,13 +178,13 @@ First, before the maintainers make any widespread switch, they must make sure
 that it won't break ecosystem tools. Say we change the cargo config file to be
 stored in `~/.config/cargo/config`. If tools like
 [cargo-geiger](https://github.com/rust-secure-code/cargo-geiger),
-[bacon](https://github.com/Canop/bacon) or
+[bacon](https://github.com/Canop/bacon), or
 [tarpaulin](https://github.com/xd009642/tarpaulin/) were using the hardcoded
 legacy path to look for cargo config data, they'd break as soon as you'd change
 your directory structure.
 
 Second, Rust developers often use the `rustup` installer to switch between rust
-version. If they switch back to a previous version of cargo which only knows to
+versions. If they switch back to a previous version of cargo which only knows to
 look `~/.cargo`, it won't read the config files in your new emplacement.
 
 The second point is, as far as I'm aware, the one that all RFCs and PRs so far
@@ -206,7 +206,7 @@ fixed;
 So, assuming we do want platform-compliant cargo files, which I do, what should
 we do?
 
-Step zero would be to write a RFC outlining everything I'm about to say in a
+Step zero would be to write an RFC outlining everything I'm about to say in a
 semi-formal format. [RFC #1615](https://github.com/rust-lang/rfcs/pull/1615) is
 a good starting point, but has missing steps.
 
@@ -327,7 +327,7 @@ the _actual_ `cargo` binary. This is how rust commands handle these
 
 For our problem, the implication is that cargo may run directly, or through a
 rustup proxy which adds a default value to `$CARGO_HOME` (and presumably
-`$CARGO_CACHE_DIR`, `$CARGO_CONFIG_DIR`, etc). Which means our lookup algorithm
+`$CARGO_CACHE_DIR`, `$CARGO_CONFIG_DIR`, etc). This means our lookup algorithm
 needs to work for both scenarios.
 
 **Here is the algorithm I would propose:**
@@ -439,9 +439,9 @@ previous versions, users scraping file locations) are less likely to happen.
 
 ### Preparing the transition
 
-To avoid ecosystem-wide breakage, we would have to do a survey of cargo-based
-tools in the ecosystem, and check how they handle config discovery. Some
-projects I got from a quick search:
+To avoid ecosystem-wide breakage, we would have to do a survey of existing
+cargo-based tools and check how they handle config discovery. Some projects I
+got from a quick search:
 
 - cargo
 - clippy, rustfmt, rust-analyzer
@@ -484,7 +484,7 @@ merging that change.
 
 ## Conclusion
 
-Is it worth all that effort to implement platform-compliance in cargo and
+Is it worth all that effort to implement platform compliance in cargo and
 rustup?
 
 I'm a lot less confident than I was when I started writing this article. The
@@ -494,7 +494,7 @@ to implement it myself.
 
 That said, I do still feel the same frustration when I do `ls ~` and see the
 little `.cargo` folder taunting me, polluting my home. I do think it would be
-better on the long term if someone had the motivation to do all that work, cross
+better in the long term if someone had the motivation to do all that work, cross
 the Ts and dot the Is, and actually planted that tree.
 
 Just, you know. Be aware that there's a lot of work before we can actually get
