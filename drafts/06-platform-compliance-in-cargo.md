@@ -7,7 +7,7 @@ When you use [the Rust programming language](https://www.rust-lang.org/)
 toolchain, usually through a cargo command, it needs a place to store a bunch of
 config files, caches, and the cargo binary itself. By default, that place will
 be your operating system's user directory, which I'm going to refer to as
-`$HOME` or `~`, inside a `.cargo` folder.
+`$HOME` or `~`, where it will put a `.cargo` folder.
 
 This is a very common approach for Unix projects, but not the preferred approach
 of any of the platforms Rust is available on. Each platform has its own folders
@@ -39,7 +39,7 @@ I am leaving out various people complaining about Rust's XDG non-compliance on
 quite a few threads). As you can see, many of these threads have high vote
 counts: people wanted this in 2014, and they still want it now.
 
-As the saying goes, "the best time to plant a tree is in 2014 back when the
+As the saying goes, "the best time to plant a tree is back in 2014 when the
 language was unstable and breaking changes weren't much of a concern"; and
 indeed, going through these threads, you can feel the frustration of a bunch of
 users asking for the change to be implemented as fast as possible before the
@@ -62,7 +62,7 @@ but Rust is a high-trust open-source community, where we have the privilege of
 being able to assume good faith.
 
 Rather, I think that developers resistant to platform-compliant config files
-have concerns; some of which I feel were valid, some which were basically noise;
+have concerns; some of which I feel are valid, some which are basically noise;
 and that despite the eagerness of the community for a fix, and the attempts of
 multiple members to implement ones, nobody was able to propose a solution that
 truly addressed those concerns.
@@ -70,10 +70,11 @@ truly addressed those concerns.
 Part of this is bureaucratic entropy (if skeptics oppose the same minor concerns
 over and over again, eg because they are not aware someone else already raised
 them, discussion inevitably gets bogged down), part of this is that the major
-concerns are legitimately complex to tackle.
+concerns are _actually pretty complex_.
 
 And since the second best time to plant a tree is right now, I'd like to lay out
-those concerns, and exactly what it would take to address them.
+those concerns, and exactly what it would take to implement platform-compliance
+for cargo in 2023 (and whatever year you're reading this).
 
 ## Okay, what are you even talking about?
 
@@ -88,18 +89,20 @@ cargo build
 ```
 
 into your terminal, cargo needs a bunch of configuration values to figure out
-what it wants to do; things like "does it pass additional flags to the
-compiler?", "which linker does it use?", "what is the default optimization
-level?", etc. It will look for config files in the current directory, every
-parent directory, and in a special path, `~/.cargo/config`.
+what it wants to do; things like "do I pass additional flags to the compiler?",
+"which linker do I use?", "what is the default optimization level?", etc. It
+will look for config files in the current directory, every parent directory, and
+in a special path, `~/.cargo/config`.
 
 Moreover, cargo also wants to keep a cache of previously built crates,
 downloaded source files, credential tokens, etc. All of these files will be
-stored in paths like `~/.cargo/git`, `~/.cargo/credentials`, etc. And cargo also
-keeps all the globally-installed binaries it builds in `~/.cargo/bin`; if that
-directory is added to your `$PATH`, then after running
-`cargo install somerustprogram`, you can run `somerustprogram` directly from
-your terminal like any other command.
+stored in paths like `~/.cargo/git`, `~/.cargo/credentials`, etc.
+
+And cargo also keeps both the rust toolchain (`cargo` itself, `rustfmt`,
+`rustc`, etc) and all the globally-installed binaries it builds in
+`~/.cargo/bin`. That directory is usually added to your `$PATH` on first
+install, so after running `cargo install somerustprogram`, you can run
+`somerustprogram` directly from your terminal like any other command.
 
 (Also, rustup has its own config files in `~/.rustup`, which we won't cover
 here; the general principle is the same.)
@@ -185,7 +188,7 @@ your directory structure.
 
 Second, Rust developers often use the `rustup` installer to switch between rust
 versions. If they switch back to a previous version of cargo which only knows to
-look `~/.cargo`, it won't read the config files in your new emplacement.
+look for `~/.cargo`, it won't read the config files in your new emplacement.
 
 The second point is, as far as I'm aware, the one that all RFCs and PRs so far
 have failed to address. It's _complicated_, the kind of problem that requires a
@@ -199,7 +202,7 @@ in cargo and rustup are written under the assumption that config files can be
 found under `~/.cargo`. These tests will need to be fixed before any
 wide-reaching change is implemented. I'm not actually sure what needs to be
 fixed;
-[the discussion in the RFC thread mentions cargo clean and hardcoded paths](https://github.com/rust-lang/rfcs/pull/1615#issuecomment-803558170).
+[the discussion in the RFC thread mentions `cargo clean` and hardcoded paths](https://github.com/rust-lang/rfcs/pull/1615#issuecomment-803558170).
 
 ## What should we do?
 
@@ -402,7 +405,25 @@ and uninstall, they shouldn't add too much brittleness to the process. In
 particular, the lookup algorithm I described above isn't affected by the
 existence of symlinks.
 
-### Quick aside: do we really want CARGO_BIN_DIR?
+### Rustup directories
+
+So far we've discussed cargo env variables passed to `cargo`, and cargo env
+variables passed to `rustup`, but rustup also has its own env variables to
+manage!
+
+Rustup currently uses `RUSTUP_HOME` and defaults to `$HOME/.rustup`. It would
+need its own `RUSTUP_CACHE_DIR` and `RUSTUP_CONFIG_DIR` env variables.
+Presumably they would be set in a way consistent with `CARGO_HOME` and
+`CARGO_***_DIR`, but the code should not assume that this is the case.
+
+The algorithm would be the same as the one I described for cargo. Rustup is
+overall a simpler case, because some of the corner cases (downgrading to
+previous versions, custom tools fetching hardcoded file locations) are less
+likely to happen.
+
+## Some unresolved questions
+
+### Do we really want CARGO_BIN_DIR?
 
 It's not clear to me that having a separate directory for binaries has a strong
 benefit. Separating config files from cache data is useful for backups and
@@ -422,22 +443,22 @@ rustup has to guess which binary is or isn't owned by cargo.
 Given the above constraints, it might make sense to consider the `bin/`
 directory a sub-part of the cache directory.
 
-### Rustup directories
+### Split cache and data?
 
-So far we've discussed cargo env variables passed to `cargo`, and cargo env
-variables passed to `rustup`, but rustup also has its own env variables to
-manage!
+To get some of the benefits of platform compliance I mentioned earlier in the
+post, you have to split your application's data directory, which stores files
+you need to keep around, and your cache directory, which stores files that can
+be removed at any point and will be re-generated.
 
-Rustup currently uses `RUSTUP_HOME` and defaults to `$HOME/.rustup`. It would
-need its own `RUSTUP_CACHE_DIR` and `RUSTUP_CONFIG_DIR` env variables.
-Presumably they would be set in a way consistent with `CARGO_HOME` and
-`CARGO_***_DIR`, but the code should not assume that this is the case.
+I'm not sure how feasible it would be to do this for cargo. The directory
+structure doesn't really separate files that can be regenerated on demand and
+files that would need to be downloaded if deleted.
 
-The algorithm would be the same as the one I described for cargo. Rustup is
-overall a simpler case, because some of the corner cases (downgrading to
-previous versions, users scraping file locations) are less likely to happen.
+We could come up with a new directory structure; but the transition between old
+and new versions would get even _more_ complex. We should probably keep it
+simple at first.
 
-### Preparing the transition
+## Preparing the transition
 
 To avoid ecosystem-wide breakage, we would have to do a survey of existing
 cargo-based tools and check how they handle config discovery. Some projects I
@@ -457,8 +478,9 @@ got from a quick search:
 - cargo-dinghy
 
 Generally, we'd also want to do a github-wide search for `CARGO_HOME` and
-`RUSTUP_HOME`, look through the reverse dependencies of the `home` crate, and
-probably a few I forgot. Yeah, that's a lot.
+`RUSTUP_HOME`, look through the reverse dependencies of
+[the `home` crate](https://crates.io/crates/home/), and probably a few I forgot.
+Yeah, that's a lot.
 
 I expect that most of these projects don't use cargo configs, and won't need to
 be changed; but due diligence requires that we check most of them before we
