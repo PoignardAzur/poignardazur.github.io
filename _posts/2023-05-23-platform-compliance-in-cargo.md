@@ -521,3 +521,5 @@ the Ts and dot the Is, and actually planted that tree.
 
 Just, you know. Be aware that there's a lot of work before we can actually get
 its fruits.
+
+[Discussion on r/rust](https://www.reddit.com/r/rust/comments/13plkf0/report_on_platformcompliance_for_cargo_directories/)
