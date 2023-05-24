@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How good are alternatives to Github Copilot?
+title: Rambling about Microsoft, and testing alternatives to Github Copilot.
 ---
 
 I've recently been in a discussion where I argued that Microsoft had made a
@@ -185,3 +185,349 @@ each one boasting large parameter counts and performance "comparable to
 ChatGPT".
 
 GPT-3 is 175B parameters
+
+Test
+
+```js
+// We have a list of recipes with the given format:
+// - Line 0: integer N which is the number of recipes in list
+// - Line 1-N: a recipe, with three ingredients separated with spaces
+//
+// Given the recipes as input, write the number of unique ingredients on standard output
+//
+// EXAMPLE INPUT:
+// 3
+// tomato mozzarella ham
+// tomato pineapple ham
+// cream pepper mushroom
+// EXPECTED OUTPUT:
+// 7
+
+const input = `
+3
+tomato mozzarella ham
+tomato pineapple ham
+cream pepper mushroom
+`.trim().split("\n");
+
+// <autocomplete starts here>
+```
+
+Copilot auto-completes with this:
+
+```js
+// <autocomplete starts here>
+const recipes = input.slice(1).map((line) => line.split(" "));
+const ingredients = recipes.reduce((acc, recipe) => {
+  recipe.forEach((ingredient) => {
+    if (!acc.includes(ingredient)) {
+      acc.push(ingredient);
+    }
+  });
+  return acc;
+}, []);
+
+console.log(ingredients.length);
+
+// rewrite with Set
+const ingredients2 = recipes.reduce((acc, recipe) => {
+  recipe.forEach((ingredient) => acc.add(ingredient));
+  return acc;
+}, new Set());
+
+console.log(ingredients2.size);
+
+// rewrite with Set and flat
+const ingredients3 = [...new Set(recipes.flat())];
+console.log(ingredients3.length);
+```
+
+(The "rewrite with" comments are from me; although interestingly, Copilot was
+able to guess "with Set" when I typed the first comment.)
+
+---
+
+Codeium
+
+```
+const N = +input[0];
+const recipes = input.slice(1);
+
+console.log(recipes.length);
+
+const ingredients = recipes.map(recipe => recipe.split(' '));
+const uniqueIngredients = new Set(ingredients.flat());
+console.log(uniqueIngredients.size);
+```
+
+(online version)
+
+Note that the first lines are garbage, but when prompted to continue, Codeium
+does end up giving the right answer.
+
+Also, Codeium was a bit shy about giving suggestions when given empty lines.
+Just typing "const" did the trick. I expect this wouldn't be a problem in
+practice.
+
+---
+
+MutableAI
+
+```
+const recipes = input.slice(1).map(line => line.split(' '));
+
+const ingredients = recipes.reduce((acc, recipe) => {
+    return acc.concat(recipe);
+    }
+, []);
+
+const uniqueIngredients = ingredients.reduce((acc, ingredient) => {
+    if (!acc.includes(ingredient)) {
+        acc.push(ingredient);
+    }
+    return acc;
+}
+, []);
+
+console.log(uniqueIngredients.length);
+
+// Rewrite the code above using a Set
+const ingredientsSet = new Set(ingredients);
+
+// Rewrite the code above using a Set and flat
+const ingredientsSet2 = new Set(recipes.flat());
+```
+
+Similar results as Copilot, subjectively a bit harder to get changes
+
+(Also, when restarting VsCode I get a popup warning me that they're switching to
+ChatGPT)
+
+---
+
+FauxPilot - self-hosted
+
+    const recipe = input.slice(0, 1);
+    const ingredients = recipe.slice(1, 3);
+
+    console.log(`${recipe}`);
+    console.log(`${ingredients}`);
+
+    console.log(`${input.slice(1, 3)}`);
+    console.log(`${input.slice(1, 3)}`);
+    console.log(`${input.slice(1, 3)}`);
+    console.log(`${input.slice(1, 3)}`);
+    console.log(`${input.slice(1, 3)}`);
+    console.log(`${input.slice(1, 3)}`);
+    console.log(`${input.slice(1, 3)}`);
+    console.log(`${input.slice(1, 3)}`);
+    console.log(`${input.slice(1, 3)}`);
+    console.log(`${input.slice(1, 3)}`);
+    console.log(`${input.slice(1, 3)}`);
+    console.log(`${input.slice(1, 3)}`);
+    console.log(`${input.slice(1, 3)}`);
+    console.log(omic.format(input));
+    console.log(`${input.slice(1, 3)}`);
+    console.log(`${input.slice(1, 3)}`);
+    console.log(`${input.slice(1, 3)}`);
+
+(TODO) About 1 min per completion
+
+---
+
+CodeGenX
+
+Didn't get API email, too bad
+
+---
+
+CodeGeeX
+
+```
+... [ [ syntax syntax. syntax. syntax. syntax. syntax. syntax. syntax. syntax. syntax. syntax. syntax. syntax. syntax.
+```
+
+---
+
+CodeClippy BLOOM BLOOMZ CodeAlpaca Salesforce Codegen
+
+Couldn't get any of the online versions to load
+
+---
+
+TabNine
+
+```
+const recipes = input.map(line => line.split(' '));
+console.log(recipes.length);
+
+const uniqueIngredients = recipes.reduce((acc, recipe) => {
+    const ingredients = recipe[1].split(' ');
+    ingredients.forEach(ingredient => {
+        if (!acc.includes(ingredient)) {
+            acc.push(ingredient);
+        }
+    });
+    return acc;
+
+}, []);
+
+console.log(uniqueIngredients.length);
+
+// Rewrite this solution to use Set
+
+const uniqueIngredients2 = recipes.reduce((acc, recipe) => {
+    const ingredients = recipe[1].split(' ');
+    ingredients.forEach(ingredient => {
+        if (!acc.has(ingredient)) {
+            acc.add(ingredient);
+        }
+    });
+    return acc;
+
+}, new Set());
+console.log(uniqueIngredients2.size);
+```
+
+Notes: not bad, but code is incorrect
+
+---
+
+Amazon Whisperer
+
+```
+const recipes = input.slice(1).map(line => line.split(' '));
+const ingredients = new Set();
+for (const recipe of recipes) {
+    for (const ingredient of recipe) {
+    ingredients.add(ingredient);
+  }
+}
+console.log(ingredients.size);
+
+// Alternative solution:
+const recipes = input.slice(1).map(line => line.split(' '));
+const ingredients = new Set(recipes.reduce((acc, recipe) => acc.concat(recipe), []));
+console.log(ingredients.size);
+
+// Alternative solution:
+const recipes = input.slice(1).map(line => line.split(' '));
+const ingredients = new Set(recipes.flat());
+console.log(ingredients.size);
+```
+
+(comments not from me) Light UX problems
+
+---
+
+BLOOMZ - 7B https://huggingface.co/Wauplin/bloomz-7b1.cpp
+
+const uniqueIngredientsCountedByLineNumberOfTheListing = []; for (let line of
+Array.from(input)) { let ingredientString = `${line}` .replace(/\n/g, '')
+.replaceEach((s, (_, a) => s === ' '? 'a': 'b')) ;
+
+const ingredientsSplitUpIntoGroupsByNumberOfSpacesInOneLine : [Array<string>][]
+| null = uniqueIngredientsCountedByLineOfListing.filter( u => parseInt(u[2] -
+(a + 1)) > 0 ).map((e, i) => e[i] || []) .sort();
+
+(Basically worthless to try a smaller model; but I don't have access to the 167B
+version)
+
+---
+
+MPT - 7B https://huggingface.co/LLukas22/mpt-7b-ggml
+
+let result; for (var i=0, recipes=[];i<input.length-1 ;++recipes){ // skip first
+recipe element which is the number of ingredients in list if (!(result =
+input[2].indexOf(' ')) < 0) return console.log(Math\
+./ log 2 ) // using Math library because we need an integer result and there are
+no math methods for indexing String object recipes.push (input [i]) }
+
+    return recipes;
+
+---
+
+Cerebras - 13B https://huggingface.co/cerebras/Cerebras-GPT-13B
+
+Couldn't run it
+
+---
+
+Wizard-Vicuna - 13B
+
+https://huggingface.co/TheBloke/wizard-vicuna-13B-GGML
+
+✗ Failed to load model Error: 0: Could not load model 1: invalid file format
+Ggjt(3)
+
+---
+
+LLaMA 33B
+
+input.splice(0,1); // remove the line with N from start of array; let
+ingredientsArr: any[] = []; for (const [i] of input) { const arr = i.replace(/
+/g,'').toLowerCase() .split(' ').map((item)=> item !== '' ? 1 :0); // make sure
+to convert the array back into number for later count! ingredientsArr +=arr; }
+let uniqueIngredeints: any = Array.from({length:ingredientArr.reduce(function
+(a,b){return a+b})}); uniqueIngredeints = []; // this is to reset the array for
+new calculation! const countUniqueIngredients = () => { const i:any[]= [] ; let
+counter : any; while (!(counter === uniqueIngredeints.reduce((a,b) => a+b))){ //
+this is to make sure there are no duplicate ingreedient in the array! for (let j
+= 0;j <ingredientsArr.length ; ++j ) { // iterate all the elements of input and
+find how many times each element appears!
+if(uniqueIngredeints[i].includes(counter)){ counter +=1} else{ i.push (counter)
+} uniqueIngredeints.push([...ingredientsArr]); countUniqueIngredients(); }
+return i; }} ; console .log(countUniqeIngredient);
+
+It tries so hard =/
+
+(I haven't tried Alpace or Vicuna, but I assume they will be the same)
+
+---
+
+StarCoder 13B model https://huggingface.co/spaces/bigcode/bigcode-playground
+
+// Getting list of recipes const recipes = input.slice(1);
+
+// Getting number of recipes const numberOfRecipes = parseInt(input[0]);
+
+// Getting unique ingredients const uniqueIngredients = new Set();
+
+// Looping through recipes for (let i = 0; i < numberOfRecipes; i++) { //
+Getting ingredients const ingredients = recipes[i].split(' ');
+
+// Adding ingredients to unique ingredients for (let j = 0; j <
+ingredients.length; j++) { uniqueIngredients.add(ingredients[j]); } }
+
+// Printing number of unique ingredients console.log(uniqueIngredients.size);
+
+---
+
+Replit https://huggingface.co/replit/replit-code-v1-3b 2.7B
+
+const recipes = input.map((r) => r.split(' '));
+
+const ingredients = recipes.map((r) => r.slice(0, 3));
+
+const uniqueIngredients = ingredients.reduce((acc, r) => { if (!acc.includes(r))
+{ acc.push(r); } return acc; }, []);
+
+console.log(uniqueIngredients.length);
+
+---
+
+CodeGen https://huggingface.co/Salesforce/codegen-16B-mono
+
+const recipes = ` .trim().split('\n');
+
+const ingredients = ` .trim().split('\n');
+
+const ingredients_count = 0;
+
+for (int i = 0; i < recipes.length; i++) { ingredients_count++;
+ingredients.splice(0, i); }
+
+const ingredients_count_2 = 0;
+
+for (int i = 0; i < ingredients.length; i++) { ingredients_count_2++;
+ingredients.splice(i, 0); }
