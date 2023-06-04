@@ -7,12 +7,11 @@ title: Rambling about Microsoft, and testing alternatives to Github Copilot.
 
 I've recently been in a discussion where I argued that Microsoft had made a
 strategic blunder by releasing Copilot the way they did, releasing a product
-built from a large database of open-source project which itself was very much
-proprietary.
+built from a large database of open-source projects while keeping the project itself very much proprietary.
 
 To be clear, I wasn't saying that Microsoft had done something unforgiveably
-immoral. I was guessing that, in te long term, that decision would not be in
-Microsoft's best interests, and would in fact cost the more money than a more
+immoral. I was guessing that, in the long term, that decision would not be in
+Microsoft's best interests, and would in fact cost them more money than a more
 open release would have, by pushing developers to use open alternatives instead.
 
 This led me to wonder: how viable are the alternatives that _actually_ exist?
@@ -20,7 +19,7 @@ I'd kind of taken for granted that they were competently made or vaguely
 comparable to the state of the art, which is a very dangerous assumption in
 computer science, and especially in AI.
 
-Before I give you what I found (spoiler: they're not great), let me give you a
+Before I tell you what I found (spoiler: there's a lot of range), let me give you a
 quick recap of the debates around Copilot, and my hot take on them.
 
 ## Microsoft Code Simulator 2021
@@ -34,9 +33,8 @@ never heard of GPT, congratulation for succesfully waking up from your cryogenic
 sleep!).
 
 Copilot and Codex immediately stirred up controversy because of how they were
-trained: they were given next-token prediction tasks, similar to GPT, with a
-corpus consisting mostly of Github Python projects, according to the OpenAI
-Codex paper:
+trained: they were given next-token prediction tasks, same as GPT, with a
+corpus consisting mostly of Github Python projects, according to [the OpenAI Codex paper](https://arxiv.org/abs/2107.03374):
 
 > Our training dataset was collected in May 2020 from 54 million public software
 > repositories hosted on GitHub, containing 179 GB of unique Python files under
@@ -62,7 +60,7 @@ don't need informed consent for it. Some of the data may be copyrighted, some of
 the data may be open-source-with-attribution where the nature of your work means
 attribution will be impossible to give reliably, some may be
 open-source-only-for-open-source projects, and some data may be in the public
-domain on a website that forbid scraping in its terms of service.
+domain on a website that forbids scraping in its terms of service.
 
 Even when data is in the public domain and accessible, its author may have
 released it before generative AI became available, and may not be fine with it
@@ -81,18 +79,15 @@ property isn't a natural law, it's a system we put in place to incentivize
 creating stuff, and arguably a pretty broken system. If I'm writing Spiderman
 fanfiction, who am I to judge machine learning researchers?
 
-Maybe the difference
-is that they're trying to make money, but I would be pretty happy selling my
-Spiderman-Harry Potter crossovers for money, and screw Marvel and JK Rowling if
-they want a cut.
+Maybe the difference is that fanfiction is amateur, but OpenAI is trying to make money? Except I would be pretty happy selling my Spiderman-Harry Potter crossovers for money, and screw Marvel and JK Rowling if they want a cut.
 
 ### My hot take: pirate everything
 
 In an ideal world, I don't think AI developers should be expected to ask for consent whenever they're using data for a machine learning project.
 
-When we're taking a photograph of a crowd, we don't consider that every single person in the crowd should have a veto right on publishing the photo, especially if the crow is blurry or far enough away that individuals can't be recognized. If you take a panorama photo of a city, you're not expected to give credit to every single architect who contributed to the buildings seen in the photo. (Or maybe you are, depending on your country's laws. But you're probably not going to.)
+When we're taking a photograph of a crowd, we don't consider that every single person in the crowd should have a veto right on publishing the photo, especially if the crowd is blurry or distance enough that individuals can't be recognized. If you take a panorama photo of a city, you're not expected to give credit to every single architect who contributed to the buildings seen in the photo. (Or maybe you are, depending on your country's laws. But you're probably not going to.)
 
-The individual contribution of any single person in the crowd is small enough that it's not worth tracking down any single one of them to ask for their permission. Moreover, the photo doesn't take any *incentives* away from the people in the crowd. Republishing a movie without permission hurts the incentives of the people financing the movie, and makes them less likely to finance more movies; taking a photo of a crowd without permission doesn't make anyone in the crowd less likely to be in a public space ever again.
+The individual contribution of any single person in the crowd is small enough that it's not worth tracking down any single one of them to ask for their permission. Moreover, sharing the photo doesn't take any *incentives* away from the people in the crowd. Republishing a movie without permission hurts the incentives of the people financing the movie, and makes them less likely to finance more movies; taking a photo of a crowd without permission doesn't make anyone in the crowd less likely to be in a public space ever again.
 
 I think intellectual property in general should be seen through the lens of "does it incentivize people to make more stuff", and "are those incentives enough to justify the costs and annoyances to other people wanting to make/get stuff?". Through that lens, it's obvious that copyright terms are *way* too long, and there's an argument to be made the patents are counter-productive and [have been for a while](https://idlewords.com/2003/12/100_years_of_turbulence.htm).
 
@@ -102,25 +97,26 @@ I'd say pretty freaking good!
 
 Like, it's easy to lose the forest for the trees, to complain about wrong numbers of fingers and hallucinations and alignment and intellectual property so much that your forget that we've created magic rocks that can code and draw stuff for us! Many things that would have been too hard to bother with last year are trivial today.
 
-I follow an author who publishes various stories online; one of them is a series of worldbuilding documents (think SCP without the horror), updated daily, where each document starts with an illustration. Before AI, if the author had to comission an artist to illustrate his series, he would just have gone without illustrations. He definitely wouldn't have paid an artist to produce an image a day for a freely available story online.
+I follow an author who publishes various stories online; one of them is a series of worldbuilding documents (think SCP without the horror), updated daily, where each document starts with an illustration. Before AI, if the author had to commission an artist to illustrate his series, he would just have gone without illustrations. He definitely wouldn't have paid an artist to produce an image a day for a freely available story online.
 
 Using Copilot has helped me learn about common coding patterns in JavaScript and Python; using ChatGPT has helped me start projects with technologies I was unfamiliar with, by giving me that small boost at the beginning that helped me get past my initial lack of confidence.
 
 People naturally feel wary about OpenAI and its ownership by Microsoft. Microsoft is a huge megacorporation, one that has been known to engage in aggressive anti-competitive anti-open-source behavior in the past. So a lot of people see Copilot as a ploy, a disguised attempt to trample the rights of the open-source community,
-using the community's work will contributing little in return they
-move all the value to their own private ecosystems.
+using the community's work while contributing little in return, ultimately all the value to their own private ecosystems.
 
-I understand the concern, but I don't really see it. One, because Copilot on its own isn't enough to eg make a fully proprietary version of GCC for evil proprietary goals. Yes, Copilot sometimes leaks open-source code in very specific occasions, but you can't just prompt Copilot with "make a proprietary clone of <some OSS project> without attribution" and get working software.
+I understand the concern, but I don't really see it. One, because Copilot on its own isn't enough to eg make a fully proprietary version of, say, GCC for evil proprietary goals. Yes, Copilot sometimes leaks open-source code in very specific occasions, but you can't just prompt Copilot with "make a proprietary clone of \<some OSS project> without attribution" and get working software.
 
 And two, OpenAI has created something amazing! For all the bugs and all the concerns I've list and those I haven't, to me they almost all come second to the sheer marvel I feel when I start writing code and Copilot offers me exactly what I was about to write. The machine is *reading my mind*.
+
+Yes, the Microsoft executives and the market forces driving them all have selfish goals, but I think it's not too much to assume that the basic motivation behind the entire project is "create something awesome", and we shouldn't just assume that the only possible reason they could have done it is to sabotage the OSS ecosystem.
 
 So I don't think Microsoft did something ethically wrong. But was it strategically wrong?
 
 ### Consequences for Microsoft
 
 Because even if Microsoft did nothing wrong, they sure
-did something impopular. A lot of open-source developers are _absolutely
-furious_ at them, swore to never use microsoft product again, shouted that the
+did something impopular. A lot of open-source developers were _absolutely
+furious_ at them, swore to never use microsoft products again, shouted that the
 company was going back to its Embrace-Extend-Extinguish roots, etc.
 
 The controversy got so bad that the small company I was in at the time decided
@@ -131,7 +127,7 @@ associations than cost-benefit analysis.)
 
 This feels like something Microsoft should care about. They've spent a lot to shed their old reputation as the enemy of open-source. They've started financing OSS projects, releasing more and more of their code as open-source (which isn't necessarily altruistic so much as [comoditizing your complement](https://gwern.net/complement)); they bought Github and kept it free for open-source projects.
 
-Their message has clearly been "don't worry, open-source developers, you're safe with us", with the hopes that developers would stay in the Microsoft ecosystem and keep using Github, DotNet, Azure, and other products and convince their managers of buying the enterprise versions of these products.
+Their message has clearly been "don't worry, open-source developers, you're safe with us", with the hopes that developers would stay in the Microsoft ecosystem and keep using Github, DotNet, Azure, and other products, and then convince their managers of buying the enterprise versions of these products.
 
 It's hard to put a dollar amount on this commitment to open-source, but it feels non-zero. At the very least, it's larger than the open-source budget of early-2000s Microsoft. Good PR with the open source community clearly has monetary value for Microsoft.
 
@@ -154,11 +150,10 @@ OpenAI announced their Dall-E 2 model, the one that kicked off the current AI
 craze, in April 2022. The first open-source alternative, Stable Diffusion, came
 out in August 2022. That's _four months_ later.
 
-I'm not going to enumerate all the other open-source achievements in machine
-learning that have come out recently. If you want an article gushing about
+Other people have noticed the same trend. If you want an article gushing about
 open-source AI, I strongly recommend
 [We have no moat, and never does OpenAI](https://www.semianalysis.com/p/google-we-have-no-moat-and-neither),
-a leaked document from a Google insider on the subject.
+a leaked document on the subject from a Google insider.
 
 The document is extremely enthusiastic about open-source AI developments:
 
@@ -183,40 +178,40 @@ As I said, it feels like a new open-source LLM (Large Language Model) is coming
 out every week, each one boasting of its huge parameter count and its training
 corpus of billions of tokens. Last year, we had two big open-source models:
 
-- OPT, a 75B open-source model released in May 2022 by Facebook AI.
-- BLOOM, a 176B open-source model released in July 2022 by model aggregator
+- **OPT**, a 75B open-source model released in May 2022 by Facebook AI.
+- **BLOOM**, a 176B open-source model released in July 2022 by model aggregator
   HuggingFace, in tandem with French research agencies CNRS and GENCI.
-  - Hugging Face later released BLOOMZ in November 2022, a version fine-tuned
+  - Hugging Face later released **BLOOMZ** in November 2022, a version fine-tuned
     for following instructions.
 
 Then, over the last four months, we've had:
 
-- Pythia, a 12B open-source model released on February 13 2023 by Eleuther AI,
+- **Pythia**, a 12B open-source model released on February 13 2023 by Eleuther AI,
   focused on helping interpretability research.
-- LLaMA, a 65B model released on February 24 2023 by Facebook AI, to academia at
+- **LLaMA**, a 65B model released on February 24 2023 by Facebook AI, to academia at
   first, and quickly leaked to the public.
-- FLAN UL2, a 20B model released on March 3 2023 by Google Brain, based on the
+- **FLAN UL2**, a 20B model released on March 3 2023 by Google Brain, based on the
   "T5 with mixture-of-experts" architecture.
-- Stanford Alpaca, a version of LLaMA fine-tuned for instruction-following,
+- **Stanford Alpaca**, a version of LLaMA fine-tuned for instruction-following,
   released on March 13 2023.
-- Cerebras-GPT, a 13B open-source model released on March 28 2023 by
+- **Cerebras-GPT**, a 13B open-source model released on March 28 2023 by
   AI-specialized cloud computing company Cerebras.
-- Vicuna, another version of LLaMA fine-tuned for conversation, using
-  user-shared conversations logs from ChatGPT, released on March 30 2023.
-- Koala, a LLaMA fine-tuned for conversation, released on April 4 2023 by Berkeley researchers.
-- Replit-Code, a 3B open-source model trained from scratch on code completions, released on April 26 2023 by SAAS company Replit.
-- StarCoder, a 15B open-source model trained from scratch on code completions, released on May 4 2023 by HuggingFace.
-- MPT, a 7B open-source model released on May 5 2023 by AI cloud orchestrator
+- **Vicuna**, another version of LLaMA fine-tuned for conversation, using
+  user-shared conversation logs from ChatGPT, released on March 30 2023.
+- **Koala**, a LLaMA version fine-tuned for conversation, released on April 4 2023 by Berkeley researchers.
+- **Replit-Code**, a 3B open-source model trained from scratch on code completions, released on April 26 2023 by SAAS company Replit.
+- **StarCoder**, a 15B open-source model trained from scratch on code completions, released on May 4 2023 by HuggingFace.
+- **MPT**, a 7B open-source model released on May 5 2023 by AI cloud orchestrator
   MosaicML.
 
 (All the sizes are given in numbers of parameters; "a 42B model" means a model
 with 42 billion weights in its neural network. Most of these models were also
 released with smaller versions which I'm not listing.)
 
-That's a lot. Each of the models I've listed is available online in one form or another; most are open-source and even allow commercial use.
+That's a lot. Each of the models I've listed is available online in one form or another; most are open-source and some even allow commercial use.
 
 So there's nothing stopping your from loading one of these models on your
-computer or, more likely, a Google Colab notebook, and start experimenting with
+computer or, more likely, a cloud VM, and start experimenting with
 them, to get results as good as you'd get from GPT-3 or ChatGPT.
 
 Or, well, that's what's advertised.
@@ -395,7 +390,7 @@ After a *lot* of hiccups, I managed to install and self-host [FauxPilot](https:/
 
 ### CodeGenX
 
-Getting CodeGenX apparently requires that you go [their website](https://www.deepgenx.com/), give them your email adress, and get an API key. I gave them my email, and didn't get anything.
+Getting CodeGenX apparently requires that you go to [their website](https://www.deepgenx.com/), give them your email adress, and get an API key. I gave them my email, and didn't get anything.
 
 Since their Github repository hasn't had a commit for almost a year, I'm just going to assume the project is dead.
 
@@ -504,7 +499,7 @@ Enough with the pre-packaged VsCode extensions using a proprietary API. What abo
 
 Well, here I have to warn you: I'm extremely new at machine learning, and most of the models I found I failed to get running on my machine.
 
-Fortunately, the GGML ecosystem and the Rust community both came to my rescue, in the form of [the llm crate](https://github.com/rustformers/llm), a tool helping you run language models using [the GGML format](https://github.com/ggerganov/ggml) in the CPU. (Basically the Rust equivalent of [llama.cpp](https://github.com/ggerganov/llama.cpp))
+Fortunately, the GGML ecosystem and the Rust ecosystem both came to my rescue, in the form of [the llm crate](https://github.com/rustformers/llm), a tool helping you run language models using [the GGML format](https://github.com/ggerganov/ggml) in the CPU. (Basically the Rust equivalent of [llama.cpp](https://github.com/ggerganov/llama.cpp))
 
 Even that was no guarantee, and there were quite a few models that llm couldn't load, but the llm repo came with [a list of models known to work](https://github.com/rustformers/llm/blob/main/doc/known-good-models.md), which helped me get started.
 
@@ -568,9 +563,9 @@ My results with BLOOMZ-7B and MPT-7B confirmed this impression.
 
 I wanted to try [Cerebras-13B](https://huggingface.co/cerebras/Cerebras-GPT-13B), the third open-source language model on the "very big" scale, but I coudln't find a GGML-compatible version.
 
-Also, the model is way too heavy for me to run it locally. It uses f32 parameters, meaning you need (13 x 4) 52GB of memory to run it. That's ridiculous! Virtually everybody in ML uses some form of 16-bits float these days, at least once they're done training. You can even find discussions where people argue that storing 32-bits weights it obsolete, and training should use exclusively 16-bits floats.
+Also, the model is way too heavy for me to run it locally. It uses f32 parameters, meaning you need (13 x 4) 52GB of memory to run it. That's ridiculous! Virtually everybody in ML uses some form of 16-bits float these days, at least once they're done training. You can even find discussions where [people argue](https://news.ycombinator.com/item?id=36041022) that storing 32-bits weights is obsolete, and training should use exclusively 16-bits floats.
 
-That's a shame; Cerebras went through all the trouble of training an open-sourcing a very large, presumably very expensive language model, to serve as a showcase for their datacenter architecture; and then they didn't bother to do the basic post-processing that would have made people more likely to actually use the model.
+That's a shame; Cerebras went through all the trouble of training and open-sourcing a very large, presumably very expensive language model, to serve as a showcase for their datacenter architecture; and then they didn't bother to do the basic post-processing that would have made people more likely to actually use the model.
 
 I just hope someone comes along and makes a GGML version of the model with f16 weights or even quantization.
 
@@ -606,7 +601,7 @@ This is the only example I've had so far where it felt quantization might be ser
 
 Like, other failing models felt like a non-technical person trying to pretend to code after seeing a few program. This one feels like a beginner trying to program while recovering from severe alcohol poisonning. It feels like the general understanding is *there*, it understands that it needs unique ingredients, that it needs to add them in a loop except if they're already there, etc. But the understanding doesn't quite converge to an actual valid program.
 
-(I haven't tried Alpace or Vicuna, but I assume results would be the same. Their fine-tuning is very light, it impacts the model's surface behavior, not its deep understanding of concepts.)
+(I haven't tried Alpace or Vicuna, but I assume results would be the same. Their fine-tuning is very light, so I assume it would impact the model's surface behavior, not its deep understanding of concepts.)
 
 ---
 
@@ -647,7 +642,7 @@ console.log(uniqueIngredients.size);
 
 Oh my. Yes, yes it does.
 
-StarCoder is a pure text-completion model, not an instruction-following model, so it takes a bit of effort to get it to write code. By default, if you just write instructions, it's just complete your prompt with more instructions in the same style. Once it gets started, though, it works like a charm.
+StarCoder is a pure text-completion model, not an instruction-following model, so it takes a bit of effort to get it to write code. By default, if you just write instructions, it'll just complete your prompt with more instructions in the same style. Once it gets started, though, it works like a charm.
 
 With a bit of nudging I got this result:
 
@@ -839,18 +834,18 @@ OpenAI does have a head start compared to the rest of the field, and maybe they'
 
 It doesn't matter, though, because for code completion you don't *need* a bleeding-edge model. You need a tool that's fast, adaptable, with good UI and good-enough results.
 
-This is a playground where open source tends to dominate. And for fast experimentation, the small size of open-source model is actually a benefit, not a handicap. So I wouldn't be surprised if two or three years from now a new code assistant had made Copilot obsolete, the same way Stable Diffusion made everyone forget about Dall-E.
+This is a playground where open source tends to dominate. And for fast experimentation, the small size of open-source models is actually a benefit, not a handicap. So I wouldn't be surprised if two or three years from now a new code assistant had made Copilot obsolete, the same way Stable Diffusion made everyone forget about Dall-E.
 
 In the meantime, if any Microsoft executives happen to be reading this, here are my recommendations:
 
 - Acknowledge the distrust your actions have created. An apology is probably too much to ask, especially given the current court cases surrounding AI, but at least admit you could have handled things in a more cooperative way.
 - Announce a new open-source code model trained on a corpus of projects on an opt-in basis. No, MIT licence isn't enough.
 - Give project owners incentives to opt-in. (Doesn't need to be financial incentives. You don't need everybody, just a lot of projects.)
-- Build B2B offerings for companies who want to sell their Copilot alternative on the cloud. If a company like Replit already has a trained model, you might as well get them to run it on Azure. Provide a vertically integrated API so that they only have to give you the model weights, and they get access to an API endpoint that the VsCode copilot extension can connect to.
+- As a sign that you're confident the model isn't going to regurgitate existing code, train the model on your own code as well. It's kind of hard to argue that AI training doesn't hurt hurt intellectual property if you're not willing to put your own IP on the line.
+- Build B2B offerings for companies who want to sell their Copilot alternative on the cloud. If a company like Replit already has a trained model, you might as well get them to run it on Azure. Provide a vertically integrated API so that they only have to give you the model weights, and they get access to an API endpoint that the VsCode Copilot extension can connect to.
 
 Oh, and if you happen to be looking for a new CEO, feel free to send me an email.
 
 To anyone else: it's a pretty exciting time for sure, and a pretty scary one as well. A lot of the developments I've mentioned happened in the last two months. I have *no idea* where the ecosystem will be in two years.
 
 For now, I guess we should just stay informed, and use the shiny new tools as they come out.
-
