@@ -849,3 +849,5 @@ Oh, and if you happen to be looking for a new CEO, feel free to send me an email
 To anyone else: it's a pretty exciting time for sure, and a pretty scary one as well. A lot of the developments I've mentioned happened in the last two months. I have *no idea* where the ecosystem will be in two years.
 
 For now, I guess we should just stay informed, and use the shiny new tools as they come out.
+
+[Discussion on Hacker News.](https://news.ycombinator.com/item?id=36184860)
