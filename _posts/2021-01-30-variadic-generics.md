@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Analysising variadics, and how to add them to Rust
+title: Analysing variadics, and how to add them to Rust
 ---
 
 *\[Note - This is republishing of an article that was previous [posted on github gist](https://gist.github.com/PoignardAzur/aea33f28e2c58ffe1a93b8f8d3c58667), and advertised on reddit in January 2021.\]*
