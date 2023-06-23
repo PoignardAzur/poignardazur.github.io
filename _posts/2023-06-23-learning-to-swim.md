@@ -1,6 +1,6 @@
 ---
 layout: post
-title: On jumping from nenuphar to nenuphar, and learning to swim
+title: On jumping from lily pad to lily pad, and learning to swim
 ---
 
 Today we're putting Rust aside for a moment. Let's talk about dating.
@@ -74,4 +74,4 @@ So... I don't know how to conclude. I hope it gets easier from here on out, beca
 
 Work on yourself. The dividends are good.
 
-*The title is from Guardians of the Galaxy: Vol. 3, where Mantiss tells Starlord life is a pond and he's been treating women like nenuphars, when he needed to learn to swim. Best plotline in the movie.*
+*The title is from Guardians of the Galaxy: Vol. 3, where Mantiss tells Starlord life is a pond and he's been treating women like lily pads, when he needed to learn to swim. Best plotline in the movie.*
