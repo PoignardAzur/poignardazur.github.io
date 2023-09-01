@@ -529,7 +529,13 @@ Error: reqwest::Error { kind: Request, url: Url { scheme: "https", cannot_be_a_b
 
 This showed me that Rust-
 
-> COOL BEAR: Well of course you're getting an error. You passed the wrong URL!
+<div class="cool-bear-box" style="display: flex; padding-bottom: 1rem;">
+<img src="../assets/cool-bear.svg" alt="Cool bear says:" height="48" width="48" />
+<div class="cool-bear-text" style="max-width: 600px; align-self: flex-start; border-radius: 3px; padding: 0.4rem 0.8rem; overflow: hidden; margin-bottom: 0; padding-bottom: 0;
+">
+<p>Well of course you're getting an error. You passed the wrong URL!</p>
+</div>
+</div>
 
 Cool bear, what the heck are you doing here? This isn't even your blog!
 
@@ -537,7 +543,13 @@ Anyway, at the point I reali-
 
 Wait, what? The wrong URL?
 
-> COOL BEAR: Yeah, at the beginning of your code snippet. You wrote `let base_url = "https://your-wiki-url.com";`.
+<div class="cool-bear-box" style="display: flex; padding-bottom: 1rem;">
+<img src="../assets/cool-bear.svg" alt="Cool bear says:" height="48" width="48" />
+<div class="cool-bear-text" style="max-width: 600px; align-self: flex-start; border-radius: 3px; padding: 0.4rem 0.8rem; overflow: hidden; margin-bottom: 0; padding-bottom: 0;
+">
+<p>Yeah, at the beginning of your code snippet. You wrote <code>let base_url = "https://your-wiki-url.com";</code>.</p>
+</div>
+</div>
 
 Oh... ooooh.
 
