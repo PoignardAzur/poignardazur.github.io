@@ -3,11 +3,11 @@ layout: post
 title: Post-mortem on my wiki converter project, or when to not use Rust
 ---
 
-This article is a post-mortem for a small project I've been working on for the past few months.
+This article is a post-mortem on a small project I've been working on for the past few months.
 
 The project itself is mundane: I was tasked with converting a MediaWiki archive into a Git repository, with revision history included.
 
-Where it gets interesting is that, while I initially expected to finish the project in less than a week, it ended up taking about twenty days, spread over three months. Over the course of those months, I've made mistakes, changed course a few times, realized that not everything had to be written in Rust, and I've strongly committed to change the way I'd tackle any similar project in the future.
+Where it gets interesting is that, while I initially expected to finish the project in less than a week, it ended up taking about twenty days, spread over three months. Over those months, I've made mistakes, changed course a few times, realized that not everything had to be written in Rust, and resolved that this would be a learning experience for me.
 
 This post-mortem is an attempt to both share the lessons I've learned, and actually figure out what those lessons were.
 
@@ -23,9 +23,9 @@ Being a reasonable, humble person, I obviously told them "Sure, I can do it over
 
 ### What was already there
 
-My colleague gave me some code he'd already written, with the advice that I use it to build the repository. His program was a fork of [mediawiki-to-gfm](https://github.com/outofcontrol/mediawiki-to-gfm.git), an existing mediawiki converter written in php and based on [pandoc](https://pandoc.org/). `mediawiki-to-gfm` takes an xml export file, which you can produce from `https://your-wiki-url.example.com/Special:Export`, and produces a directory with converted files with filenames matching the page titles.
+My colleague gave me some code he'd already written, with the advice that I use it to build the repository. His program was a fork of [mediawiki-to-gfm](https://github.com/outofcontrol/mediawiki-to-gfm.git), an existing MediaWiki converter written in PHP and based on [Pandoc](https://pandoc.org/). `mediawiki-to-gfm` takes an XML export file, which you can produce from `https://your-wiki-url.example.com/Special:Export`, and produces a directory with converted files with filenames matching the page titles.
 
-My colleague then expanded on that program, using the fact that the export page can also be made to export all previous revisions of a file. He wrote a program that could take an xml export file with revision history included, and produce a repository with one commit per file revision.
+My colleague then expanded on that program, using the fact that the export page can also be made to export all previous revisions of a file. He wrote a program that could take an XML export file with revision history included, and produce a repository with one commit per file revision.
 
 He gave me access to his project, and recommended that I run it on all the pages of the wiki; keeping in mind I could use `https://your-wiki-url.example.com/Special:AllPages` to get a list of pages.
 
@@ -39,12 +39,12 @@ Being a reasonable, humble person, I obviously decided to rewrite the whole thin
 
 *Now wait just a second*, and hold your tomatoes. There were a few factors informing my decision:
 
-- When I was given the task, there was a period of a few weeks where I had not access to the company servers because of auth problems. During that period, I couldn't download my colleague's code, and so I decided to explore my own alternative in the meantime.
+- When I was given the task, there was a period of a few weeks where I had no access to the company servers because of auth problems. During that period, I couldn't download my colleague's code and so I decided to explore my own alternative in the meantime.
 - I had misunderstood how the `Special:Export` page works. I couldn't find an API endpoint for it, and I thought that meant I would have to export each page by hand, one by one. I didn't realize that I could give it a list of pages to export all at once.
-- I had also failed to get the list of pages from the `Special:AllPages` page. Turns out when you have lots of pages, the list gets paginated. The way it's displayed [on our version of the software](http://millcomputing.com/wiki/Special:AllPages) is a bit confusing; when I first saw it, I just thought the page wasn't working.
+- I had also failed to get the list of pages from the `Special:AllPages` page. Turns out that when you have lots of pages, the list gets paginated. The way it's displayed [on our version of the software](http://millcomputing.com/wiki/Special:AllPages) is a bit confusing; when I first saw it, I just thought the page wasn't working.
 - When I did manage to install my colleague's php program, I failed to get it to run because of problems with incompatible dependencies.
 - I thought I do everything from scratch in a few days, while solving the problems above would take longer.
-- Rust is the language I'm most comfortable with, with features for unit testing, snapshot testing, logging and debugging, all of which I (correctly) thought I'd need for this project.
+- Rust is the language I'm most comfortable with, with features for unit testing, snapshot testing, logging, and debugging, all of which I (correctly) thought I'd need for this project.
 
 Hence, I decided to write a Rust converter.
 
@@ -54,7 +54,7 @@ My plan was to:
 - For each revision:
   - Use the MediaWiki API to fetch the revision's new content.
   - Write it to disk.
-  - Use pandoc to convert it to markdown.
+  - Use Pandoc to convert it to markdown.
   - Commit the new file using `git-oxide`.
 - Do the above for every single file.
 - Making it parallel, using `tokio`.
@@ -69,7 +69,7 @@ To help me write this code, I decided to use both ChatGPT (to get me started on 
 
 > [Given a MediaWiki website, can I get the equivalent of the 'Special:Export' page using a rest API?](https://chat.openai.com/share/b846d1ce-e4ab-4256-9ff8-ed85bd891470)
 
-> [I'm writing a rust program with tokio. I want the program to have a pipeline with two parts: one of them explores a tree of files sequentially and calls an async function getMyData on each file, then sends the resulting data to the other part. Then the second part of the pipeline gets each message and calls processMyData on it sequentially. I want both parts of the pipeline to be internally sequentialm but to run in parallel of each other.](https://chat.openai.com/share/a9119455-313d-4754-b120-d17ecb192cce)
+> [I'm writing a rust program with tokio. I want the program to have a pipeline with two parts: one of them explores a tree of files sequentially and calls an async function getMyData on each file, then sends the resulting data to the other part. Then the second part of the pipeline gets each message and calls processMyData on it sequentially. I want both parts of the pipeline to be internally sequential but to run in parallel of each other.](https://chat.openai.com/share/a9119455-313d-4754-b120-d17ecb192cce)
 
 ### First week
 
@@ -153,7 +153,7 @@ async fn task_get_revisions(
 
 It's a very dense function, but it's overall mostly simple: it's just three layers of loops getting all pages and all revisions for these pages, with some pagination tokens to keep track of.
 
-The interesting work is done in functions like `fetch_all_pages`, `fetch_revisions` and `get_parsed_revisions`. I'll show a few of them later.
+The interesting work is done in functions like `fetch_all_pages`, `fetch_revisions` and `get_parsed_revisions`. I'll show you a few of them later.
 
 The line `sender.send(revision).await.unwrap();` then sends each parsed revision to the other task, `task_process_revisions`:
 
@@ -200,7 +200,7 @@ async fn task_process_revisions(
 }
 ```
 
-Again, this is wordy, but the purpose is simple: for each parsed revision, write it, convert it with pandoc, commit it. I'll show more detail later.
+Again, this is wordy, but the purpose is simple: for each parsed revision, write it, convert it with Pandoc, and commit it. I'll go into more detail later.
 
 Make a note of the `get_branch_name` and `get_file_path` functions. These functions take a page title, with its potential special characters and spaces and slashes, and normalize it into a git branch name or a file path. Here's `get_branch_name`, for instance:
 
@@ -279,7 +279,7 @@ Most of this code is boilerplate. Some things to note:
 
 This approach (writing the small functions first, testing them, and only writing enough glue code to compile) felt very productive, in that I spent most of my time writing the next feature and not struggling with my entire program not working for some reason.
 
-On the other hand, it means my glue code (including the code I've shown above) had bugs, and sice I hadn't written tests for the glue code, I had a hard time noticing those bugs, let alone understanding where they came from.
+On the other hand, it means my glue code (including the code I've shown above) had bugs, and since I hadn't written tests for the glue code, I had a hard time noticing those bugs, let alone understanding where they came from.
 
 Still, I made some progress.
 
@@ -288,20 +288,20 @@ Still, I made some progress.
 
 I got sick in the same period, which I think is part of the reason I didn't notice the project was ballooning in size. I had spent a week on it and felt barely halfway done, after I'd said it could be finished in a few days.
 
-Still, I didn't want to give up halfway, and I felt pressured by my previous commitments to the team. I didn't want to arrive to the meetings empty-handed, and so I decided to work harder and faster on my rust program. We'll get back to that.
+Still, I didn't want to give up halfway, and I felt pressured by my previous commitments to the team. I didn't want to arrive at the meetings empty-handed, and so I decided to work harder and faster on my rust program. We'll get back to that.
 
 I'm not going to go over everything that went wrong in the project in detail.
 
-The weeks that followed, I had quite a few problems to solve:
+In the weeks that followed, I had quite a few problems to solve:
 
 - `git-oxide` didn't do the specific things I wanted to do (IIRC it couldn't stage a file). I had to switch to `git2-rs`.
 - `git2::Repository` couldn't be shared between threads. I had to rework my entire tokio architecture.
 - `git2` would refuse empty committer names and emails, which meant I needed to add defaults for both of those.
 - The initial `get_file_path` implementation could have name collisions, so I changed it.
-- I wanted the program I wrote to be idempotent. That is, I wanted to be able to interupt execution, then run it again, and have the program keep filling the repository from where it left off, with no duplicated work. There were good reasons to want that, but it added a lot of complexity to the design.
+- I wanted the program I wrote to be idempotent. That is, I wanted to be able to interrupt execution, then run it again, and have the program keep filling the repository from where it left off, with no duplicated work. There were good reasons to want that, but it added a lot of complexity to the design.
   - One bit of complexity was that I wanted to create one branch per file, switch between branches, and eventually merge them all. This is *extremely* painful with libgit2.
 
-Anyway, after a few weeks of work, I had something that could run reasonably well on archwiki and build a partial repository of all their file.
+Anyway, after a few weeks of work, I had something that could run reasonably well on ArchWiki and build a partial repository of all their file.
 
 Now the last step would be to run it on the Mill w-
 
@@ -321,7 +321,7 @@ When I try to log in to `private.millcomputing.com`, here's what I see:
 
 ![Textbox with title "This site is asking you to sign in" and fields "Username" and "Password"](/assets/convert_wiki_sign_in.png)
 
-That means before I could access the Wiki's API enpoints, I would need to figure out how I can get `reqwest` to somehow authenticate to the site.
+That means before I could access the Wiki's API endpoints, I would need to figure out how I can get `reqwest` to somehow authenticate to the site.
 
 Uuuuuuuuuuuuugh.
 
@@ -357,24 +357,24 @@ I copy-pasted most of the PHP code into a Rust file in a big block comment, told
 
 I wrote fewer unit tests this time. I don't actually think that was a good idea, I think it made me slower, but I just had much less patience for it.
 
-Anyway, I imported an XML parser, retro-fitted the code that I'd already written, and ran it on exported dumps.
+Anyway, I imported an XML parser, retrofitted the code that I'd already written, and ran it on exported dumps.
 
 I quickly ran into a problem where small dumps were fine, but parsing moderately large dumps would fail 5 minutes in, which was a pain to debug. I added a setting to start parsing in the middle of a dump, which made debugging much easier.
 
-Still, I had learned my lessons from the previous attempts. My code was simpler, I didn't use async programming at all, I tried to do things in a dumb way whenever possible. Progress was overal faster, more regular and less frustrating.
+Still, I had learned my lessons from the previous attempts. My code was simpler, I didn't use async programming at all, I tried to do things in a dumb way whenever possible. Progress was overall faster, more regular and less frustrating.
 
 After two days of this, I finally had a fully converted wiki!
 
 Hurray! 🥳
 
-One remaining problem was that links still had a mediawiki-like formatting. Links in the converted repository would look like this:
+One remaining problem was that links still had a MediaWiki-like formatting. Links in the converted repository would look like this:
 
 - `[highForm](highForm "wikilink")`
 - `[S1/Users and groups](S1/Users_and_groups "wikilink")`
 - `[User:Yost](User:Yost "wikilink")`
 - `[this link](Foo/Bar Baz! "wikilink")`
 
-My first thought was "let's solve this with bash commands and regexes!". [I asked ChatGPT for a solution](https://chat.openai.com/share/5e26503e-046e-43c2-ac57-c7c4d3f07931), but what it gave me felt too complicated:
+My first thought was "Let's solve this with bash commands and regexes!". [I asked ChatGPT for a solution](https://chat.openai.com/share/5e26503e-046e-43c2-ac57-c7c4d3f07931), but what it gave me felt too complicated:
 
 > Putting it all together, the commands would look something like:
 >
@@ -431,7 +431,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
-I ran it that program on my wiki and got converted links. The program didn't cover all possible mediawiki links, but a quick skim of the repository suggested it was good enough for what we had.
+I ran that program on my wiki and got converted links. The program didn't cover all possible MediaWiki links, but a quick skim of the repository suggested it was good enough for what we had.
 
 Now all that was left was converting the media files.
 
@@ -448,15 +448,15 @@ To summarize the timeline so far:
 
 There's just one problem: the export page only works for article pages. It doesn't work for images, videos, spreadsheets, etc.
 
-Which meant I was back to square one: given that I can authenticate in the browser, but I want to fetch some data from the command-line, what do I do?
+Which meant I was back to square one: given that I can authenticate in the browser, but I want to fetch some data from the command line, what do I do?
 
 #### Hard-coding the `Authorization` header
 
 The first thing I tried was, wait for it, writing a Rust program.
 
-Since I could connect from the browser, I tried to use Firefox Devtools to record a request, and see if I saw anything I could copy into my code.
+Since I could connect from the browser, I tried to use Firefox Devtools to record a request and see if I saw anything I could copy into my code.
 
-Here's what Network tab showed me:
+Here's what the Network tab showed me:
 
 ![Screenshot of the Firefox devtools Network tab, with a list of headers and their values. The "Authorization" header value is censored.](/assets/convert_wiki_devtools.jpg)
 
@@ -537,9 +537,9 @@ This showed me that Rust-
 </div>
 </div>
 
-Cool bear, what the heck are you doing here? This isn't even your blog!
+Cool Bear, what the heck are you doing here? This isn't even your blog!
 
-Anyway, at the point I reali-
+Anyway, at this point I reali-
 
 Wait, what? The wrong URL?
 
@@ -580,7 +580,7 @@ Well, moving on.
 
 I feel very silly about this, which is also a benefit of this writing exercise: I get to see things that could have worked had I done them slightly differently.
 
-Anyway, let's get back to the past days where I thought my Rust scrapper fundamentally couldn't work.
+Anyway, let's get back to the past days when I thought my Rust scrapper fundamentally couldn't work.
 
 At this point, it felt very clear to me that my current track wasn't working, and Rust was not the best language for this project. Even a small project had a non-trivial compile time, which was a handicap when I needed to try lots of small experiments. And given the subject matter (web scrapping), JavaScript was an obvious candidate.
 
@@ -589,7 +589,7 @@ I still couldn't figure out the authentication problem, though, which meant I ha
 
 ### Switching tactics: Node.js and Selenium
 
-And by "thinking outside the box", I of course mean "asking ChatGPT for ideas". I asked the following question:
+And by "thinking outside the box", I obviously mean "asking ChatGPT for ideas". I asked the following question:
 
 > [Let's say I have a list of URLs I want to fetch. Fetching these URLs from my browser works, but fetching them with curl doesn't because curl doesn't have the right permissions to access the page. What's the easiest way I could fetch all those files programmatically and save them on my computer?](https://chat.openai.com/share/7f42854c-92ec-4afa-975a-b5924fe438ee)
 
@@ -613,7 +613,7 @@ This would display the resulting JSON object in a foldable tree, which was prett
 
 ![Firefox screenshot of a page displaying a JSON object](/assets/convert_wiki_json.png)
 
-However, the JSON object itself wasn't really stored directly in the page. It *was* displayed (as raw text) in the "Raw Data" tab, so I could retrieve it like this:
+However, the JSON object itself wasn't really stored directly in any variable I could access. It *was* displayed (as raw text) in the "Raw Data" tab, so I could retrieve it like this:
 
 ```js
 const rawDataButton = await driver.findElement({ "id": "rawdata-tab" });
@@ -658,7 +658,7 @@ I wish it was simpler. Ideally, `executeAsyncScript` could be like a Web Worker,
 
 This might be something where BiDi WebDriver; obviously ChatGPT didn't know about it since it's more recent than 2021, and it's still experimental enough that the APIs aren't documented. If anyone knows more about this, I'm very interested.
 
-(Note from future me editing this: full structured clone doesn't look possible. BiDi WebDriver uses WebSockets under the hood, which are a bit more limited in the data they send than Workers. On the other hand, sending back ArrayBuffers should be possible? I don't know.)
+(Note from future me editing this: seamless structured clone doesn't look possible. BiDi WebDriver uses WebSockets under the hood, which are a bit more limited in the data they send than Workers. On the other hand, sending back ArrayBuffers should be possible? I don't know.)
 
 Anyway, I cobbled together a program using `executeAsyncScript`, and ran it on the list of all the files I needed to download:
 
@@ -687,7 +687,7 @@ At that point I have a git repository with all the properly converted pages, to 
 
 > *Yes, thank you*, that thought occurred to me several times over the next nine years. I made that principle the centerpiece of my Battle Magic curriculum after I learned its centrality the hard way. It was not the first Rule on the younger Tom Riddle's list. It is only by harsh experience that we learn which principles take priority over which other principles; as mere words they all sound equally persuasive. *Professor Quirrell - HP:MoR*
 
-So what I did I learn making that converter program?
+So what did I learn making that converter program?
 
 A bunch of things, as it turns out! I'll try to trim them to the essentials, but even then, there are lots of essentials.
 
@@ -724,7 +724,7 @@ The reasons I laid out were:
 - I overestimated how long his approach would take me.
 - Trying to run his program, I ran into dependency problems.
 - I thought it would be faster to rewrite it.
-- Rust is the language I'm most comfortable with, with feature for unit testing, snapshot testing, logging and debugging, all of which I (correctly) thought I'd need for this project.
+- Rust is the language I'm most comfortable with, with features for unit testing, snapshot testing, logging and debugging, all of which I (correctly) thought I'd need for this project.
 
 If I'm being honest, the last reason is the only one that mattered, the others were rationalizations. Rust is my comfort zone.
 
@@ -740,7 +740,7 @@ And that's assuming that writing a program was the right approach at all. Which 
 
 ### Try to get data, not a program
 
-My approach on this project was way too holistic.
+My approach during this project was way too holistic.
 
 You know how scientists have a reputation for writing some very bad code that's impossible to reproduce, because they only need to get their dataset once for their article? I'm realizing software engineers have the opposite bias.
 
@@ -750,9 +750,9 @@ What I should have been trying to do is to get the *data* I needed. In some case
 
 For instance, I tried to use the MediaWiki [AllPages REST API](https://www.mediawiki.org/wiki/API:Allpages) to fetch a list of pages; even though I could navigate to `Special:AllPages` and copy-paste the list from there in about 30 seconds.
 
-That approach wouldn't have been scaleable, but *I was trying to convert a wiki with less than a thousand pages*. I shouldn't even have been thinking about scaleability. Or if I was thinking about it, because I wanted to release a tool to the public, it should have been at the project end, *after* I made something that worked.
+That approach wouldn't have been scaleable, but *I was trying to convert a wiki with less than a thousand pages*. I shouldn't even have been thinking about scalability. Or if I was thinking about it, because I wanted to release a tool to the public, it should have been at the project end, *after* I made something that worked.
 
-In the context of a small project that didn't *really* need to be released, getting data manually was often by far the fastest step, even if it doesn't give you that satisfaction of having automated something.
+In the context of a small project that didn't *really* need to be released, getting data manually was often by far the fastest step, even if it didn't give me that satisfaction of having automated something.
 
 When I started thinking with that mindset, progress came a lot faster.
 
@@ -762,9 +762,9 @@ This was the other extremely good decision I made early on.
 
 In my current setup, I use Copilot and ChatGPT-4. Whenever I have a question about anything or I feel stuck, I ask ChatGPT. When I write stuff in VsCode, I use Copilot.
 
-They are productivity *multipliers*. This project would not be finished right now if it weren't from these two tools.
+They are productivity *multipliers*. This project would not be finished right now if it weren't for these two tools.
 
-ChatGPT is a good tool for breaking out of your comfort zone. When you want to do something new and you don't know where to start, ChatGPT is a good first step. It gives you suggestions, knows a lot of tools by name, can give you example code, etc. It provides an essential service to the mind, which is taking a concept that you only know very vaguely about, and give you concrete examples that you can put your coding hands on.
+ChatGPT is a good tool for breaking out of your comfort zone. When you want to do something new and you don't know where to start, ChatGPT is a good first step. It gives you suggestions, knows a lot of tools by name, can give you example code, etc. It provides an essential service to the mind, which is taking a concept that you only know very vaguely about, and giving you concrete examples that you can put your coding hands on.
 
 ![A rubber duck which is also Batman. Photo by Brett Jordan on Unsplash](../assets/batman-duck.jpg)
 
@@ -776,7 +776,7 @@ When you're working alone or at home, and you don't have a colleague on the same
 
 Copilot feels less transformative in itself, and more like a very good autocomplete. It makes you write code faster and spend less time on boilerplate.
 
-There's some things it's *very* suited to, though, like writing unit tests, or translating a program from one language from another.
+There's some things it's *very* suited to, though, like writing unit tests, or translating a program from one language to another.
 
 If anything, it feels a bit underpowered compared to the capabilities I *know* the model has. It only lets you do auto-completion and chat, but I wish it could also point out mistakes you made, suggest the next line to jump to based on your current edits, etc. VsCode has lots of very powerful affordances for language servers: refactors, assists, diagnostics, inlay hints, etc. I wish Copilot made more use of them.
 
@@ -802,7 +802,7 @@ Earlier this year, [I wrote an article](https://poignardazur.github.io/2023/02/0
 - **Inspectable:** Affordances, rich logging.
 - **Replayable:** Serializable replay format.
 
-A lots of the features I mentioned wanting are available in one form or another with the combination of browser devtools (especially Chrome DevTools) and Selenium.
+A lot of the features I mentioned wanting are available in one form or another with the combination of browser devtools (especially Chrome DevTools) and Selenium.
 
 JavaScript gives you short initial build times and near-zero incremental build times. Selenium gives you testability, and replayability. Browser devtools give you strong inspection and error-reporting features.
 
@@ -824,7 +824,7 @@ Whew! Even writing this took longer than I expected. Here's a quick summary.
 The project:
 
 - I wanted to write a converter that would take a wiki and convert it to markdown format.
-- First I ignored my colleague's advice and write something that would poll the MediaWiki API.
+- First I ignored my colleague's advice and wrote something that would poll the MediaWiki API.
 - Then I realized it didn't work in my case, and I wrote an XML parser and used manually-produced dumps.
 - Then I had to get media files, and I used Selenium to automate retrieving them.
 
