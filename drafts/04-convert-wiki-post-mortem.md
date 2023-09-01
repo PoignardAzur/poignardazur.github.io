@@ -319,7 +319,7 @@ Oh. Right.
 
 When I try to log in to `private.millcomputing.com`, here's what I see:
 
-TODO - mill login screenshot
+![Textbox with title "This site is asking you to sign in" and fields "Username" and "Password"](/assets/convert_wiki_sign_in.png)
 
 That means before I could access the Wiki's API enpoints, I would need to figure out how I can get `reqwest` to somehow authenticate to the site.
 
@@ -458,7 +458,7 @@ Since I could connect from the browser, I tried to use Firefox Devtools to recor
 
 Here's what Network tab showed me:
 
-[TODO - Image]
+![Screenshot of the Firefox devtools Network tab, with a list of headers and their values. The "Authorization" header value is censored.](/assets/convert_wiki_devtools.jpg)
 
 Huh. That Authorization header sounds like what I need!
 
@@ -599,7 +599,7 @@ await driver.sleep(100);
 
 This would display the resulting JSON object in a foldable tree, which was pretty convenient for visualization:
 
-TODO image
+![Firefox screenshot of a page displaying a JSON object](/assets/convert_wiki_json.png)
 
 However, the JSON object itself wasn't really stored directly in the page. It *was* displayed (as raw text) in the "Raw Data" tab, so I could retrieve it like this:
 
@@ -754,7 +754,7 @@ They are productivity *multipliers*. This project would not be finished right no
 
 ChatGPT is a good tool for breaking out of your comfort zone. When you want to do something new and you don't know where to start, ChatGPT is a good first step. It gives you suggestions, knows a lot of tools by name, can give you example code, etc. It provides an essential service to the mind, which is taking a concept that you only know very vaguely about, and give you concrete examples that you can put your coding hands on.
 
-[TODO a duck]
+![A rubber duck which is also Batman. Photo by Brett Jordan on Unsplash](../assets/batman-duck.jpg)
 
 Talking to ChatGPT felt like an enhanced version of [rubber duck debugging](https://en.wikipedia.org/wiki/Rubber_duck_debugging), the practice where you explain your problems to someone/something to get a better understanding of them. ChatGPT is not as good as a "someone", but it's much better than a "something". Talking to an inanimate object never really did much for me, but somehow, talking to an AI does.
 
