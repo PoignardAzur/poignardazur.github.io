@@ -20,6 +20,10 @@ body {
   margin: 0;
 }
 
+/*
+ * TODO - Implement dark theme
+ */
+
 /* HTML5 display definitions
    ========================================================================== */
 
@@ -693,15 +697,19 @@ dl dd {
   font-weight: 100;
 }
 
-/* COOL BEAR */
-.cool-bear-box {
+/* COOL WOLF */
+.cool-wolf-box {
   display: flex;
   padding-bottom: 1rem;
 }
 
-.cool-bear-text {
-  background-color: #fefdf6;
-  border: 1px solid #ffeb81;
+.cool-wolf-box svg {
+  stroke: rgb(10, 10, 10);
+}
+
+.cool-wolf-text {
+  background-color: #eeecdd;
+  border: 1px solid #f0da70;
   max-width: 600px;
   align-self: flex-start;
   border-radius: 3px;
@@ -709,13 +717,6 @@ dl dd {
   overflow: hidden;
   margin-bottom: 0;
   padding-bottom: 0;
-}
-
-@media (prefers-color-scheme: dark) {
-  .cool-bear-text {
-    background-color: #26241c;
-    border: 1px solid #736624;
-  }
 }
 
 /* MISC */

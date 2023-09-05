@@ -529,23 +529,21 @@ Error: reqwest::Error { kind: Request, url: Url { scheme: "https", cannot_be_a_b
 
 This showed me that Rust-
 
-<div class="cool-bear-box" style="display: flex; padding-bottom: 1rem;">
-<img src="../assets/cool-bear.svg" alt="Cool bear says:" height="48" width="48" />
-<div class="cool-bear-text" style="max-width: 600px; align-self: flex-start; border-radius: 3px; padding: 0.4rem 0.8rem; overflow: hidden; margin-bottom: 0; padding-bottom: 0;
+<div class="cool-wolf-box" style="display: flex; padding-bottom: 1rem;">
+{% svg /assets/cool-wolf.svg title="Cool Wolf says:" width=50px %}
+<div class="cool-wolf-text" style="max-width: 600px; align-self: flex-start; border-radius: 3px; padding: 0.4rem 0.8rem; overflow: hidden; margin-bottom: 0; padding-bottom: 0;
 ">
 <p>Well of course you're getting an error. You passed the wrong URL!</p>
 </div>
 </div>
 
-Cool Bear, what the heck are you doing here? This isn't even your blog!
-
-Anyway, at this point I reali-
+Oh my god, it's Cool Wolf, the public domain royalty-free Original Character! I've gotta say, I really like your work and your well-established brand ima-
 
 Wait, what? The wrong URL?
 
-<div class="cool-bear-box" style="display: flex; padding-bottom: 1rem;">
-<img src="../assets/cool-bear.svg" alt="Cool bear says:" height="48" width="48" />
-<div class="cool-bear-text" style="max-width: 600px; align-self: flex-start; border-radius: 3px; padding: 0.4rem 0.8rem; overflow: hidden; margin-bottom: 0; padding-bottom: 0;
+<div class="cool-wolf-box" style="display: flex; padding-bottom: 1rem;">
+{% svg /assets/cool-wolf.svg title="Cool Wolf says:" width=50px %}
+<div class="cool-wolf-text" style="max-width: 600px; align-self: flex-start; border-radius: 3px; padding: 0.4rem 0.8rem; overflow: hidden; margin-bottom: 0; padding-bottom: 0;
 ">
 <p>Yeah, at the beginning of your code snippet. You wrote <code>let base_url = "https://your-wiki-url.com";</code>.</p>
 </div>
@@ -572,9 +570,9 @@ Downloading File:Foo.png...
 Downloading File:Bar.png...
 ```
 
-What the heck, Cool Bear? Why didn't you warn me when I was working on this?
+What the heck, Cool Wolf? Why didn't you warn me when I was working on this?
 
-Cool Bear? Cool Bear?
+Cool Wolf? Cool Wolf?
 
 Well, moving on.
 
@@ -766,7 +764,7 @@ They are productivity *multipliers*. This project would not be finished right no
 
 ChatGPT is a good tool for breaking out of your comfort zone. When you want to do something new and you don't know where to start, ChatGPT is a good first step. It gives you suggestions, knows a lot of tools by name, can give you example code, etc. It provides an essential service to the mind, which is taking a concept that you only know very vaguely about, and giving you concrete examples that you can put your coding hands on.
 
-![A rubber duck which is also Batman. Photo by Brett Jordan on Unsplash](../assets/batman-duck.jpg)
+![A rubber duck which is also Batman. Photo by Brett Jordan on Unsplash](/assets/batman-duck.jpg)
 
 Talking to ChatGPT felt like an enhanced version of [rubber duck debugging](https://en.wikipedia.org/wiki/Rubber_duck_debugging), the practice where you explain your problems to someone/something to get a better understanding of them. ChatGPT is not as good as a "someone", but it's much better than a "something". Talking to an inanimate object never really did much for me, but somehow, talking to an AI does.
 
