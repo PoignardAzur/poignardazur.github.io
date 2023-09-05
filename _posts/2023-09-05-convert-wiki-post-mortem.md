@@ -530,7 +530,7 @@ Error: reqwest::Error { kind: Request, url: Url { scheme: "https", cannot_be_a_b
 This showed me that Rust-
 
 <div class="cool-wolf-box" style="display: flex; padding-bottom: 1rem;">
-{% svg /assets/cool-wolf.svg title="Cool Wolf says:" width=50px %}
+<svg xmlns="http://www.w3.org/2000/svg" title="Cool Wolf says:" width=50px baseProfile="full" version="1.1" style="fill: none;" viewBox="0 0 95 100"><path d="M 15 95 L 15 95 L 15 60 L 15 45 A 30 30 90 0 1 45 15 M 75 60 L 75 45 A 30 30 90 0 0 45 15 M 75 95 L 75 95 L 75 60 M 22.5 26.25 L 22.5 26.25 L 22.5 3.75 L 33.75 15 M 67.5 26.25 L 67.5 26.25 L 67.5 3.75 L 56.25 15 M 26.25 26.25 L 26.25 26.25 L 41.25 37.5 L 41.25 26.25 L 26.25 26.25 M 48.75 26.25 L 48.75 26.25 L 48.75 37.5 L 63.75 26.25 L 48.75 26.25 M 48.75 30 L 48.75 30 L 41.25 30 M 33.75 48.75 L 48.75 48.75 A 11.25 3.75 0 0 0 60 45" style="stroke-width: 5px; stroke-linecap: round; stroke-linejoin: round; fill: none;"/><path d="M 26.25 60 L 26.25 60 L 30 67.5 M 33.75 60 L 33.75 60 L 37.5 67.5 M 45 60 L 45 60 L 45 67.5 M 56.25 60 L 56.25 60 L 52.5 67.5 M 63.75 60 L 63.75 60 L 60 67.5 M 30 75 L 30 75 L 33.75 82.5 M 37.5 75 L 37.5 75 L 41.25 82.5 M 52.5 75 L 52.5 75 L 48.75 82.5 M 60 75 L 60 75 L 56.25 82.5 " style="stroke-width: 2px; stroke-linecap: round; stroke-linejoin: round; fill: none;"/></svg>
 <div class="cool-wolf-text" style="max-width: 600px; align-self: flex-start; border-radius: 3px; padding: 0.4rem 0.8rem; overflow: hidden; margin-bottom: 0; padding-bottom: 0;
 ">
 <p>Well of course you're getting an error. You passed the wrong URL!</p>
@@ -542,7 +542,7 @@ Oh my god, it's Cool Wolf, the public domain royalty-free Original Character! I'
 Wait, what? The wrong URL?
 
 <div class="cool-wolf-box" style="display: flex; padding-bottom: 1rem;">
-{% svg /assets/cool-wolf.svg title="Cool Wolf says:" width=50px %}
+<svg xmlns="http://www.w3.org/2000/svg" title="Cool Wolf says:" width=50px baseProfile="full" version="1.1" style="fill: none;" viewBox="0 0 95 100"><path d="M 15 95 L 15 95 L 15 60 L 15 45 A 30 30 90 0 1 45 15 M 75 60 L 75 45 A 30 30 90 0 0 45 15 M 75 95 L 75 95 L 75 60 M 22.5 26.25 L 22.5 26.25 L 22.5 3.75 L 33.75 15 M 67.5 26.25 L 67.5 26.25 L 67.5 3.75 L 56.25 15 M 26.25 26.25 L 26.25 26.25 L 41.25 37.5 L 41.25 26.25 L 26.25 26.25 M 48.75 26.25 L 48.75 26.25 L 48.75 37.5 L 63.75 26.25 L 48.75 26.25 M 48.75 30 L 48.75 30 L 41.25 30 M 33.75 48.75 L 48.75 48.75 A 11.25 3.75 0 0 0 60 45" style="stroke-width: 5px; stroke-linecap: round; stroke-linejoin: round; fill: none;"/><path d="M 26.25 60 L 26.25 60 L 30 67.5 M 33.75 60 L 33.75 60 L 37.5 67.5 M 45 60 L 45 60 L 45 67.5 M 56.25 60 L 56.25 60 L 52.5 67.5 M 63.75 60 L 63.75 60 L 60 67.5 M 30 75 L 30 75 L 33.75 82.5 M 37.5 75 L 37.5 75 L 41.25 82.5 M 52.5 75 L 52.5 75 L 48.75 82.5 M 60 75 L 60 75 L 56.25 82.5 " style="stroke-width: 2px; stroke-linecap: round; stroke-linejoin: round; fill: none;"/></svg>
 <div class="cool-wolf-text" style="max-width: 600px; align-self: flex-start; border-radius: 3px; padding: 0.4rem 0.8rem; overflow: hidden; margin-bottom: 0; padding-bottom: 0;
 ">
 <p>Yeah, at the beginning of your code snippet. You wrote <code>let base_url = "https://your-wiki-url.com";</code>.</p>
