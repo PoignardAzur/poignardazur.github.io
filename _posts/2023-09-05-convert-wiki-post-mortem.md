@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Post-mortem on my wiki converter project, or when to not use Rust
+title: When to not use Rust - post-mortem on my wiki converter project
 ---
 
 This article is a post-mortem on a small project I've been working on for the past few months.
