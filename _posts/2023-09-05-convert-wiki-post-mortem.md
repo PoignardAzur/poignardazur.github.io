@@ -9,7 +9,9 @@ The project itself is mundane: I was tasked with converting a MediaWiki archive 
 
 Where it gets interesting is that, while I initially expected to finish the project in less than a week, it ended up taking about twenty days, spread over three months. Over those months, I've made mistakes, changed course a few times, realized that not everything had to be written in Rust, and resolved that this would be a learning experience for me.
 
-This post-mortem is an attempt to both share the lessons I've learned, and actually figure out what those lessons were.
+This post-mortem is an attempt to both share the lessons I've learned, and actually figure out what those lessons were. Ducks may or may not be involved.
+
+![A rubber duck which is also Batman. Photo by Brett Jordan on Unsplash](/assets/batman-duck.jpg)
 
 This is a fairly long post. [Jump here](#lessons-learned) if you want to skip all the nitty gritty details and get to the "I learned to not use Rust all the time" part.
 
@@ -764,7 +766,7 @@ They are productivity *multipliers*. This project would not be finished right no
 
 ChatGPT is a good tool for breaking out of your comfort zone. When you want to do something new and you don't know where to start, ChatGPT is a good first step. It gives you suggestions, knows a lot of tools by name, can give you example code, etc. It provides an essential service to the mind, which is taking a concept that you only know very vaguely about, and giving you concrete examples that you can put your coding hands on.
 
-![A rubber duck which is also Batman. Photo by Brett Jordan on Unsplash](/assets/batman-duck.jpg)
+![A rubber duck with sunglasses. Photo by Rajvir Kaur on Unsplash](/assets/duck-sunglasses.avif)
 
 Talking to ChatGPT felt like an enhanced version of [rubber duck debugging](https://en.wikipedia.org/wiki/Rubber_duck_debugging), the practice where you explain your problems to someone/something to get a better understanding of them. ChatGPT is not as good as a "someone", but it's much better than a "something". Talking to an inanimate object never really did much for me, but somehow, talking to an AI does.
 
