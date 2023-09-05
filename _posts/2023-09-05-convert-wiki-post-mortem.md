@@ -839,3 +839,7 @@ Things I did wrong:
 - Tried to write a complex program instead of trying to get data.
 
 Those are some pretty universal lessons, I think. They apply to a lot more projects than this small scrapper, and I'm definitely going to try to live by them in future projects.
+
+[Discussion on r/rust.](https://www.reddit.com/r/rust/comments/16apiv2/when_to_not_use_rust_postmortem_on_my_wiki/)
+
+[Discussion on Hacker News.](https://news.ycombinator.com/item?id=37392056)
