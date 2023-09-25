@@ -4,13 +4,15 @@ title: Home
 ---
 
 <div class="posts">
-  <h1>About</h1>
-
-
   {% capture about_md %}
     {% include about.md %}
   {% endcapture %}
   {{ about_md | markdownify }}
+
+  {% capture hireme_md %}
+    {% include hireme.md %}
+  {% endcapture %}
+  {{ hireme_md | markdownify }}
 
   <h1>Posts</h1>
 
