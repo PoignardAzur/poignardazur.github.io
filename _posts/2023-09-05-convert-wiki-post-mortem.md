@@ -1,6 +1,6 @@
 ---
 layout: post
-title: When to not use Rust - post-mortem on my wiki converter project
+title: Leaving one's comfort zone - post-mortem on my wiki converter project
 ---
 
 This article is a post-mortem on a small project I've been working on for the past few months.
@@ -845,3 +845,5 @@ Those are some pretty universal lessons, I think. They apply to a lot more proje
 [Discussion on r/rust.](https://www.reddit.com/r/rust/comments/16apiv2/when_to_not_use_rust_postmortem_on_my_wiki/)
 
 [Discussion on Hacker News.](https://news.ycombinator.com/item?id=37392056)
+
+*Note: This post was originally released with the title "When to not use Rust - post-mortem on my wiki converter project".*
