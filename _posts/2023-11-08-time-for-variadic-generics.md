@@ -107,10 +107,10 @@ In practice, I've heard of a lot of people wishing they could use variadics, but
 
 I think variadics aren't necessarily useful for application developers, or people working on libraries with mostly concrete types (eg web libraries). But for people working on libraries with lots of type manipulation, variadic generics have obvious benefits. They let you go from manipulating types to *collections* of types.
 
-A notorious example is Bevy's [`Query`](https://docs.rs/bevy/latest/bevy/prelude/struct.Query.html) type. This type lets you request all entities in your world which own components with certain types, so you can then operate on these components using that type information:
+A notorious example is [Bevy's `Query` type](https://docs.rs/bevy/latest/bevy/prelude/struct.Query.html). This type lets you request all entities in your world which own components with certain types, so you can then operate on these components using that type information:
 
 ```rust
-// Here we declared a `query` which is injected in by our App during a game tick
+// This system will run over every entity with both a Position and a Velocity
 fn movement_system(query: Query<(&mut Position, &Velocity)>) {
     for (mut position, velocity) in query.iter_mut() {
         // ...
@@ -201,7 +201,7 @@ Assuming we can settle that debate, the next step would be to add features one b
 
 Overall, I hope the end result of this process will look like [Jules Bertholet's Variadics design sketch](https://hackmd.io/@x5qEAKM5Q36wKV_Wftw96g/HJFy6uzDh). It makes a lot of syntax choices that make intuitive sense, and feel like they would play well with compiler internals (and I've mostly borrowed from it for the code snippets above).
 
-That doesn't mean we should avoid the design as-is (and historically "adopting" an entire design from a complex RFC has always been more wishful thinking than what actually ended up happening) but that we should keep it in mind as our rough goal while we debate "stepping stone" features.
+That doesn't mean we should adopt the design as-is (and historically "adopting" an entire design from a complex RFC has always been more wishful thinking than what actually ended up happening) but that we should keep it in mind as our rough goal while we debate "stepping stone" features.
 
 
 ## Call to action
@@ -224,12 +224,14 @@ impl<???> Debug for Ts where Ts: IS_A_TUPLE_WITH_DEBUG_FIELDS
 }
 ```
 
-A working implementation would probably be help convince lang team members.
+A working implementation would probably be helpful to get lang team members onboard.
 
-Honestly, this is something where I really wish I had enough time and familiarity with the compiler to do it myself. Lacking both, I'm calling out to any extremely motivated contributors: if you've ever wanted to get generics variadics in Rust, now might be the time to start.
+Honestly, this is something where I really wish I had enough time and familiarity with the compiler to do it myself. Lacking both, I'm calling out to any extremely motivated contributors: if you've ever wanted to get generics variadics in Rust, now is the time to start.
 
-For everyone else, I'd like for people to talk about variadics more. I'd like people to produce some in-depth discussion, that goes beyond publishing yet another from-the-ground up proposal, into actually dissecting differences between proposals, and what consequences each choice would present.
+For everyone else, I'd like for people to talk about variadics more. I'd like people to produce some in-depth discussion, that goes beyond publishing yet another from-the-ground-up proposal, into actually dissecting differences between proposals, and what consequences each choice would present.
 
 I feel like we're entering a new era for the Rust language, where long-awaited features are getting more attention, and people are exploring new ideas over endlessly re-litigating bikeshed debates.
 
 I'm hoping the coming months will prove me right.
+
+[Discussion on r/rust.](https://www.reddit.com/r/rust/comments/17qp7v4/variadic_generics_again/)
