@@ -144,3 +144,4 @@ Whatever happens, I'll be posting here about the progress I make. I think the ti
 
 Fingers crossed.
 
+[Discussion on r/rust.](https://www.reddit.com/r/rust/comments/1d0coao/report_on_variadic_generics_discussion_at_rustnl/)
