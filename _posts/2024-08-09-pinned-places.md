@@ -14,9 +14,9 @@ Very long story short: in Rust, all values can be "moved", meaning their bytes a
 
 This is a problem because some values become inherently unsound if you move their bytes around to a different place, most notably self-referential types (types with a reference pointing to a value owned by the same object as the pointer).
 
-People have suggested solutions to address these use cases. In a [previous article](https://without.boats/blog/pin/), Boats goes over these solutions and why most of these solutions are not feasible to implement without major disruption to the Rust ecosystem.
+People have suggested solutions to address these use cases. In a [previous article](https://without.boats/blog/pin/), Boats goes over these solutions and why most of them are not feasible to implement without major disruption to the Rust ecosystem.
 
-The solution that the language *did* settle on is pinned pointers: a `Pin<&mut T>` is a wrapper around a `&mut T` which lets you access its value and in some cases mutate its fields, but does not let you move the `T` by default. More than that, by creating a `Pin<&mut T>`, you are *declaring* that the value will not be moved for the remainder of its lifetime, even after the `Pin<&mut T>` is dropped. Since the compiler can't check that you hold to that commitment, `Pin::new` is an unsafe function.
+The solution that the language *did* settle on is pinned pointers: a `Pin<&mut T>` is a wrapper around a `&mut T` which lets you access its value and in some cases mutate its fields, but does not let you move the `T` by default. More than that, by creating a `Pin<&mut T>`, you are *declaring* that the value will not be moved for the remainder of its lifetime, even after the `Pin<&mut T>` is dropped. Since the compiler can't check that you hold to that commitment, `Pin::new_unchecked` is an unsafe function. (I'm skipping a lot of details here.)
 
 Because of these constraints, Pin ends up being somewhat unwieldy. You need a macro to create a pinned reference on the stack, pin projection is hard, reborrowing must happen manually, methods end up looking like `fn foo(self: Pin<&mut Self>)`, etc.
 
