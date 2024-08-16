@@ -132,3 +132,5 @@ I don't know if any of this will be implemented in the coming years. The types t
 But in the meantime, it's a nice thing to doodle about. That syntax feels pretty clear and readable, and it would probably a long way toward attenuating the "Rust async is painful" problem.
 
 I'm happy that after years of talking in circles about these problems, we can still eventually make progress.
+
+[Discussion on r/rust.](https://www.reddit.com/r/rust/comments/1etljoh/expanding_on_withoutboats_pinned_places/)
