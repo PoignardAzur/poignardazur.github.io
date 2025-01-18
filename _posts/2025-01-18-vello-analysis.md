@@ -21,40 +21,40 @@ I've mostly noticed two types of projects with Vello as a direct dependency:
 
 **Engine code** projects:
 
-- https://github.com/linebender/xilem/tree/main/masonry
-- https://github.com/linebender/bevy_vello/
-- https://github.com/linebender/velato/
-- https://github.com/linebender/vello_svg/
-- https://github.com/itlaohuo/Graphite-latest-stable/
-- https://github.com/lapce/floem/
-- https://github.com/yutannihilation/vellogd-r/
-- https://github.com/marcpabst/renderer/
-- https://github.com/bella-project/bella/
-- https://github.com/Anti-Alias/gewy/
-- https://github.com/mhfan/inlottie/
-- https://github.com/Noxime/vg/
-- https://github.com/DasLixou/snowberry/
-- https://github.com/ratmice/selvage/
-- https://github.com/sansseriff/svelte-vello/
-- https://github.com/voxell-tech/velyst
-- https://github.com/oku-gui/oku-gui/
-- https://github.com/mysangle/starfish/
+- [https://github.com/linebender/xilem/tree/main/masonry]
+- [https://github.com/linebender/bevy_vello/]
+- [https://github.com/linebender/velato/]
+- [https://github.com/linebender/vello_svg/]
+- [https://github.com/itlaohuo/Graphite-latest-stable/]
+- [https://github.com/lapce/floem/]
+- [https://github.com/yutannihilation/vellogd-r/]
+- [https://github.com/marcpabst/renderer/]
+- [https://github.com/bella-project/bella/]
+- [https://github.com/Anti-Alias/gewy/]
+- [https://github.com/mhfan/inlottie/]
+- [https://github.com/Noxime/vg/]
+- [https://github.com/DasLixou/snowberry/]
+- [https://github.com/ratmice/selvage/]
+- [https://github.com/sansseriff/svelte-vello/]
+- [https://github.com/voxell-tech/velyst]
+- [https://github.com/oku-gui/oku-gui/]
+- [https://github.com/mysangle/starfish/]
 
 **Painting code** projects:
 
-- https://gitlab.com/cyloncore/cartography-rs/
-- https://github.com/ducharmemp/mj/
-- https://github.com/D3lta-2-1/chess_game/
-- https://github.com/ccleavinger/thInk/
-- https://github.com/carterisonline/dagrid/
-- https://github.com/crockeo/ekad/
-- https://github.com/rosefromthedead/ut3/
-- https://github.com/cfagot/space_survival/
-- https://github.com/yamgent/wlte/
-- https://github.com/alliby/fuu/
-- https://github.com/jasoneveleth/chop-editor/
-- https://github.com/Rottenfront/fp-arcanoid/
-- https://github.com/rj45/digilogic
+- [https://gitlab.com/cyloncore/cartography-rs/]
+- [https://github.com/ducharmemp/mj/]
+- [https://github.com/D3lta-2-1/chess_game/]
+- [https://github.com/ccleavinger/thInk/]
+- [https://github.com/carterisonline/dagrid/]
+- [https://github.com/crockeo/ekad/]
+- [https://github.com/rosefromthedead/ut3/]
+- [https://github.com/cfagot/space_survival/]
+- [https://github.com/yamgent/wlte/]
+- [https://github.com/alliby/fuu/]
+- [https://github.com/jasoneveleth/chop-editor/]
+- [https://github.com/Rottenfront/fp-arcanoid/]
+- [https://github.com/rj45/digilogic]
 
 The numbers (18 engine projects, 13 app-like projects) aren't too surprising if you're familiar with the "Rust has 50 game engines and 3 games" stereotype. They also match my "gut feeling" reading the code, where it feels like a lot more projects use Vello in a very systematized way, as some kind of middleware or optional backend than as a plug-and-play dependency to paint a bunch of shapes.
 
@@ -190,6 +190,8 @@ These projects tended to have one instance code calling each Scene method in the
 Most of the projects I've looked at used the `fill()` and `stroke()` API exclusively.
 Few of them used `draw_image()`, `draw_glyphs()`, `push_layer()`, etc.
 
+In total, I've counted about a dozen projects using any of these APIs.
+
 Those that did tended to be the "render any arbitrary SVG" kinds of projects.
 
 
@@ -269,3 +271,5 @@ With this API, the `cartography-rs` code I quoted would look like this:
 ```
 
 This would also let us remove most of the helpers in `paint_scene_helpers.rs` in Masonry.
+
+[Discussion on the Linebender Zulip.](https://xi.zulipchat.com/#narrow/channel/197075-gpu/topic/Patterns.20of.20use.20of.20Vello.20crate)
