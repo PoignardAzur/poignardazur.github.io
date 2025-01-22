@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Pre-RFC: Rename annotations
+title: Pre-RFC - Rename annotations
 ---
 
 This is an informal proposal for improving [the Rust programming language](https://www.rust-lang.org/). I'll assume familiarity with the language.
