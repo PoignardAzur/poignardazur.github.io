@@ -149,3 +149,5 @@ Because the compiler is *told* that this is the correct move and not just guessi
 Rename annotations would be helpful as a "grace period" after a crate's major version change, but they would also be useful for purely internal refactors, using `cargo fix` to change `use` directives throughout your codebase.
 
 All in all, this feels like a pretty useful feature which, thanks to the `diagnostics` namespace's relaxed constraints, could be implemented relatively swiftly in the Rust toolchain.
+
+[Discussion on r/rust.](https://www.reddit.com/r/rust/comments/1i88ugg/prerfc_rename_annotations/)
