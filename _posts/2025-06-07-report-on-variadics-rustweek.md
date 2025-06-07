@@ -112,3 +112,5 @@ I think variadics are a feature worth having, and I'm more optimistic than ever 
 You know.
 
 Eventually.
+
+[Discussion on r/rust.](https://www.reddit.com/r/rust/comments/1l5ige9/report_on_variadic_generics_discussions_at/)
