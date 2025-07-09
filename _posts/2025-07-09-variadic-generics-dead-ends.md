@@ -586,7 +586,9 @@ After years of design discussion, we're finally at a stage where variadic generi
 Serious discussion and initial work is, hopefully, about to start.
 I'm hoping this article helps us not get dragged down in litigating the same alternatives over and over again.
 
-Anyway, this was the last big article I wanted to write.
+Anyway, this was the last big article I wanted to write on the subject.
 
-Next step for me should be writing the RFC.
+My next step after this will be writing an RFC.
 Stay tuned!
+
+[Discussion on r/rust.](https://www.reddit.com/r/rust/comments/1lvlhpk/variadic_generics_ideas_that_wont_work_for_rust/)
