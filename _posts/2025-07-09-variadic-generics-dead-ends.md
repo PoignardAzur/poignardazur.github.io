@@ -31,7 +31,7 @@ impl<...Ts: SomeTrait> SomeTrait for (...Ts) {
 let value: u32 = (0, 0.5, "hello", Some("hello"), false).do_stuff();
 ```
 
-(Not that the syntax is a placeholder, and not the point of this article.)
+(Note that the syntax is a placeholder, and not the point of this article.)
 
 You could also use it to map types:
 
